@@ -38,7 +38,7 @@ Copyright © Sojung Park (Bei) All rights reserved.
 
 
 ## 🍀 Members
-| [![텍스트](https://avatars.githubusercontent.com/u/162114710?v=4)](https://github.com/KimYeEun0929) | [![텍스트](https://avatars.githubusercontent.com/u/148514354?v=4)](https://github.com/JunhMlNl) | [![텍스트](https://avatars.githubusercontent.com/u/115697137?v=4)](https://github.com/HyunwooDoo) | [![텍스트](없음)](없음) |
+| [![텍스트](https://avatars.githubusercontent.com/u/162114710?v=4)](https://github.com/KimYeEun0929) | [![텍스트](https://avatars.githubusercontent.com/u/148514354?v=4)](https://github.com/JunhMlNl) | [![텍스트](https://avatars.githubusercontent.com/u/115697137?v=4)](https://github.com/HyunwooDoo) | [![텍스트](https://avatars.githubusercontent.com/u/203520708?v=4)](https://github.com/sejeong223) |
 |:---:|:---:|:---:|:---:|
 | 루이/김예은 | 제이엠/김정민 | 두두/두현우 | 정/김세정 |
 
