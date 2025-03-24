@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { /* body 안 전체 스타일 */
+    font-family: sans-serif;
+    display: flex; 
+    justify-content: center; /* 가운데 정렬*/ 
+    align-items: center; /* 가운데 정렬*/ 
+    height: 100vh; /* 맨 위에서 높이를 띄워 가운데 이동 */
+    background-color: beige;
+}
+
+.todo-container { /* todo-container 스타일 */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px; /* 라운드 처리 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 처리 */
+    width: 400px;
+    text-align: center;
+}
+
+.todo-container_header {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.todo-container_form {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.todo-container_input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+
+}
+
+.todo-container_button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.todo-container_button:hover { /* 포인터를 갖다 댔을 때 변화 */
+    background-color: lightgreen;   
+}
+
+.render-container {
+    display: flex; /* flex 처리로 할 일, 완료가 일직선 */
+    justify-content: space-between; /* 찢어놓기 */
+    gap: 20px;
+}
+
+.render-container_title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row; /* 기본값 */
+    justify-content: center;
+}
+
+.render-container_section {
+    width: 100%;
+    text-align: left;
+}
+
+.render-container_list {
+    list-style: none; /* li, oi의 리스트 스타일 자체를 없애줌 */
+    padding: 0;
+    margin: 0;
+}
+
+.render-container_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    background-color: lightcyan;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+/* 스타일링 하고 지워서 JS로 동적으로 동작하게 해줌 */
+.render-container_item-text {
+    flex: 1;
+}
+
+.render-container_item-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.render-container_item-button:hover {
+    background-color: lightcoral;
+}
