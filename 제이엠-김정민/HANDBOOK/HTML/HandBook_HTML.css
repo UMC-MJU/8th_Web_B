@@ -1,0 +1,24 @@
+span {
+    background: yellow;
+    width: 200px;
+    height: 50px;
+    margin: 20px;
+    padding: 10px;
+}
+
+div {
+    background: yellow;
+    width: 200px;
+    height: 50px;
+    margin: 20px;
+    padding: 10px;
+}
+
+span.inline-block{
+    display: inline-block;
+    background: yellow;
+    width: 200px;
+    height: 50px;
+    margin: 20px;
+    padding: 10px;
+}
