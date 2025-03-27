@@ -9,7 +9,7 @@ function addTask() {
     let taskText = taskInput.value.trim();
     //trim() => 값을 가져올 때 앞뒤 공백을 지워서 가져옴옴
     if (taskText === "") return;
-    //만약 taskText의 값이 비어 있다면 그대로 끝냄냄
+    //만약 taskText의 값이 비어 있다면 그대로 끝냄
 
     let li = document.createElement("li");
     //li 속성을 추가
