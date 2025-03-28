@@ -28,8 +28,8 @@ export const ThemeProvider = ({children} : PropsWithChildren) => {
         );
     };
 
-    return (
-        <ThemeContext.Provider value={{theme:theme, toggleTheme: toggleTheme }}>
+    return ( //Provider에서 value로 사용할 함수 or 변수명 들을 건내주어야함.
+        <ThemeContext.Provider value={{theme, toggleTheme }}>
             {children}
         </ThemeContext.Provider>
     )
