@@ -1,9 +1,8 @@
 import TodoList from './TodoList'
 import TodoForm from './TodoForm';
-import { FormEvent, useContext, useState } from 'react';
-import { TTodo } from '../types/Todo';
-import { TodoContext, useTodo } from '../context/TodoContext';
-
+// import { FormEvent, useContext, useState } from 'react';
+// import { TTodo } from '../types/Todo';
+import { useTodo } from '../context/TodoContext';
 
 const Todo = () => {
     //useTodo를 통해 사용하는 모든 컴포넌트를 감싸준다.

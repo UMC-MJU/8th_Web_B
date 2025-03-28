@@ -1,5 +1,5 @@
-import Todo from '../components/Todo';
-import { TodoProvider } from '../context/TodoContext';
+import Todo from './components/Todo';
+import { TodoProvider } from './context/TodoContext';
 // import TodoBefore from '../components/TodoBefore';
 import './Misson1.css';
 
