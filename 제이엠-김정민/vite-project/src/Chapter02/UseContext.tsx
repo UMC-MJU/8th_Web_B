@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import ButtonGroup from '../components/ButtonGroup';
-import { CounterContext, useCount } from '../context/CounterProvider';
+import { useCount } from '../context/CounterProvider';
 
 function App() {
     // const context = useContext(CounterContext);

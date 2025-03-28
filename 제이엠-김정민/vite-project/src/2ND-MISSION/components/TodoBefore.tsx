@@ -1,12 +1,12 @@
 import { FormEvent, useState } from "react";
-import { TTodo } from "../types/Todo";
+import { TTodo } from "../types/todo"
 
 const TodoBefore = () => {
     //총 3가지 상태가 필요 => 할 일 상태, 완료된 상태, 입력상태
     //따라서 밑에서 useState를 사용하여 상태를 선언
     const [todos, setTodos] = useState<TTodo[]>([ ]);
-    const [doneTodos, setDoneTodos] = useState<TTodo[]>([ ]);
-    const [input, setInput] = useState<string>('');
+    const [doneTodos, setDoneTodos] = useState<TTodo[]>([ ]); 
+    const [input, setInput] = useState<string>(''); 
 
     // console.log('Input:', input);
 
@@ -62,7 +62,7 @@ const TodoBefore = () => {
                     <ul id="todo-list" className="render-container__list">
                         {/* todos인 이유는 많은 객체가 들어갈 수 있어서
                         todo인 이유는 한개만 들어갈 수 있어서 그냥 규칙임 */}
-                        {todos.map((todo): any => (
+                        {todos.map((todo) => (
                             // recat는 key를 기준으로 렌더링을 동작
                             // 따라서 key값을 설정해줘야됨.
                             <li key={todo.id} className="render-container__item">
@@ -84,7 +84,7 @@ const TodoBefore = () => {
                 <div className="render-container__section">
                     <h2 className="render-container__title">완료</h2>
                     <ul id="done-list" className="render-container__list">
-                        {doneTodos.map((done): any => (
+                        {doneTodos.map((done) => (
                             <li key={done.id} className="render-container__item">
                                 <span className="render-container_item-text">
                                     {done.text}

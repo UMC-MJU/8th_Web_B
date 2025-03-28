@@ -28,7 +28,7 @@ function App3() {
     };
 
     // age 값을 1씩 증가시키는 함수
-    const increaseAge = ()=> {
+    const increaseAge = () => {
         setPerson((prevPerson) => ({
             ...prevPerson, // 이전 person 객체의 복사본을 생성합니다.
             age: prevPerson.age + 1, // 다른 key의 value는 유지, age 값을 기존 값에서 1 증가

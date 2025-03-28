@@ -5,7 +5,8 @@ import Mission1 from "./2ND-MISSION/Misson1.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <>
-  <Mission1/>
+  {/* 2주차 미션1 */}
+  <Mission1/> 
   </>
 )
 
