@@ -1,8 +1,8 @@
 import { TTodo } from "../types/Todo";
 
 interface TodoListProps {
-    title: string;
-    todos: TTodo[];
+    title?: string;
+    todos?: TTodo[];
     buttonLable: string;
     buttonColor: string;
     onClick: (todo: TTodo) => void;
@@ -22,7 +22,7 @@ const TodoList = ({
         <ul id="todo-list" className="render-container__list">
             {/* todos인 이유는 많은 객체가 들어갈 수 있어서
             todo인 이유는 한개만 들어갈 수 있어서 그냥 규칙임 */}
-            {todos.map((todo): any => (
+            {todos?.map((todo): any => (
                 // recat는 key를 기준으로 렌더링을 동작
                 // 따라서 key값을 설정해줘야됨.
                 <li key={todo.id} className="render-container__item">
