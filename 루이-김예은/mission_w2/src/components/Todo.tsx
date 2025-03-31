@@ -2,6 +2,7 @@ import React from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import { useTodo } from "../context/TodoContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Todo = () => {
   const { todos, dones, handleComplete, handleDelete } = useTodo();
@@ -9,6 +10,7 @@ const Todo = () => {
   return (
     <div className="todo-container">
       <h1 className="todo-container__header">RUI TODO</h1>
+      <ThemeToggle />
       <TodoForm />
       <div className="render-container">
         <TodoList
