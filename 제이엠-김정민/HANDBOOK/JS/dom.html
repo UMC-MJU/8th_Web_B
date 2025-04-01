@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p class="text">첫 번째 문장</p>
+    <p class="text">두 번째 문장</p>
+
+    <ul id="myList">
+        <li>기존 아이템</li>
+    </ul>
+    <button id="addBtn">아이템 추가</button>
+
+    <!-- <input type="text" id="textInput"> -->
+    <button id="toggleButton" data-status="off">OFF</button>
+    <!-- <style>
+        .active {
+            background-color: green;
+            color: white;
+        }
+    </style> -->
+
+    <script>
+
+        document.getElementById("toggleButton").addEventListener("click", function () {
+            let btn = this; //this를 btn 변수에 저장 (가독성 증가)
+            //btn대신 this.dataset 이런식으로 모든 코드에 적용해도 됨. 
+
+            if (btn.dataset.status === "off") {
+                btn.dataset.status = "on";
+                btn.textContent = "ON";
+                btn.classList.add("active");
+            } else {
+                btn.dataset.status = "off";
+                btn.textContent = "OFF";
+                btn.classList.remove("active");
+            }
+
+            console.log("현재 상태:", btn.dataset.status);  // 콘솔에서 확인 가능
+        });
+
+
+        document.getElementById("addBtn").addEventListener("click", function() {
+            let li = document.createElement("li");
+            li.textContent = "새로운 아이템";
+            document.getElementById("myList").appendChild(li);
+        });
+        
+
+    </script>
+
+</body>
+
+</html>
