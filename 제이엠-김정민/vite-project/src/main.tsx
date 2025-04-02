@@ -1,20 +1,15 @@
 import { createRoot } from "react-dom/client";
-import './index.css'
+//2주차 TodoList에서 사용한 css파일
+// import './02-week/index.css' 
 // import App from './App.tsx'
 // import Mission1 from "./2ND-MISSION/Misson1.tsx";
 import App from "./App.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <>
-  {/* 2주차 미션1 */}
-  {/* <Mission1/>  */}
   <App/>
   </>
 )
-
-
-
-
 
 /* ===================================================================================================================*/
 //실습할때 사용한 main.tsx
