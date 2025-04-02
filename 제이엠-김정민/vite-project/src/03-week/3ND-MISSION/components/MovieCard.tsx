@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Movie } from "../types/movie"
+import { useNavigate } from "react-router-dom";
 
 interface MovieCardProps{
     movie: Movie
@@ -7,9 +8,12 @@ interface MovieCardProps{
 
 export default function MovieCard({movie}: MovieCardProps) {
     const [isHovered,setIsHovered] = useState(false);
+    // React는 SPA로써 전체페이지를 새고로침하지 않고 특정 컴포넌트만 바뀌는 것 처럼 작동.
+    const navigate = useNavigate();
 
     return (
         <div 
+        onClick={() => navigate(`/movie/${movie.id}`)}
         className='relative rounded-xl shadow-lg overflow-hidden cursor-pointer
         w-44 transition-transform duration-500 hover:scale-105'
         onMouseEnter={() => setIsHovered(true)}
