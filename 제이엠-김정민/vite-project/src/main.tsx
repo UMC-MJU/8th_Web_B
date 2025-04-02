@@ -9,7 +9,7 @@ import Chapter3 from "./03-week/3ND-MISSION/Chapter3.tsx"; //Chapter3 Mission1
 createRoot(document.getElementById('root')!).render(
   <>
   {/* <App/> */}
-  <Chapter3/> 미션3-1
+  <Chapter3/> 
   </>
 )
 
