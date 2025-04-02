@@ -14,19 +14,18 @@ import './App.css'
 // import RootLayout from './03-week/실습/layout/root-layout'
 //useEffcet 실습
 // import UseEffectPage from './03-week/실습/pages/useEffectPage'
-// import Parent from './03-week/실습/pages/UseEffectCountPage'
+import Parent from './03-week/실습/pages/UseEffectCountPage'
 
 //Chapter03 Mission import
-import MoviePage from './03-week/3ND-MISSION/pages/MoviePage'
+// import MoviePage from './03-week/3ND-MISSION/pages/MoviePage'
 
-
-function App(){
-  return(
-    <>
-      <MoviePage/>
-    </>
-  )
-}
+// function App(){
+//   return(
+//     <>
+//       <MoviePage/>
+//     </>
+//   )
+// }
 
 
 //Chapter03-router 연결
@@ -58,15 +57,15 @@ function App(){
 //   return <RouterProvider router={router}/>
 // }
 
-// const App = () => {
-//   return (
-//     <>
-//       {/* <Mission1/> 2주마 미션1 */}
-//       {/* <DarkMode/>2주차 미션2 */}
-//       {/* <UseEffectPage/>useEffect 실습 */}
-//       {/* <Parent/> useEffect에서 cleanUp 함수실습 */}
-//     </>
-//   )
-// }
+const App = () => {
+  return (
+    <>
+      {/* <Mission1/> 2주마 미션1 */}
+      {/* <DarkMode/>2주차 미션2 */}
+      {/* <UseEffectPage/>useEffect 실습 */}
+      <Parent/> useEffect에서 cleanUp 함수실습
+    </>
+  )
+}
 
 export default App

@@ -4,10 +4,12 @@ import { createRoot } from "react-dom/client";
 // import App from './App.tsx'
 // import Mission1 from "./2ND-MISSION/Misson1.tsx";
 import App from "./App.tsx";
+import Chapter3 from "./03-week/3ND-MISSION/Chapter3.tsx"; //Chapter3 Mission1
 
 createRoot(document.getElementById('root')!).render(
   <>
-  <App/>
+  {/* <App/> */}
+  <Chapter3/> 미션3-1
   </>
 )
 
