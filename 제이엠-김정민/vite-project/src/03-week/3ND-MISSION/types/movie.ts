@@ -18,7 +18,22 @@ export type Movie = {
 export type MovieResponse = {
     page:number,
     results: Movie[],
-    tatal_Pages: number,
+    total_Pages: number | undefined,
     total_result: number,
-
 }
+
+
+export interface MovieDetail {
+    title: string;
+    overview: string;
+    release_date: string;
+    poster_path: string;
+    backdrop_path: string;
+    vote_average: number;
+}
+
+export interface Credit {
+    crew: { id: number; name: string; job: string; profile_path: string | null; }[];
+    cast: { id: number; name: string; profile_path: string | null; character: string; }[];
+}
+
