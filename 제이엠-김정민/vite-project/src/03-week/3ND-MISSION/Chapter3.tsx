@@ -17,12 +17,16 @@ const router = createBrowserRouter([
                 path: 'movies/:category',
                 element: <MoviePage/>,
             },
-            {
-                path: 'movie/:movieId',
-                element: <MovieDetailPage/>,
-            }
+            // {
+            //     path: 'movie/:movieId',
+            //     element: <MovieDetailPage/>,
+            // }
         ],
     },
+    {
+        path: 'movie/:movieId',
+        element: <MovieDetailPage/>,
+    }
 ])
 
 // movies/upcoming

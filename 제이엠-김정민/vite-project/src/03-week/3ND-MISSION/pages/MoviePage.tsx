@@ -19,21 +19,26 @@ export default function MoviePage() {
     const {category} = useParams<{category: string}>();
 
     // console.log(params);
+    
+    useEffect(() => {
+        // 카테고리가 바뀔 때 페이지를 1로 초기화
+        setPage(1);
+    }, [category]);
 
     useEffect(() => {
         const fetchMovies = async () => {
             setIsPending(true);
             try {
                 const { data } = await axios.get<MovieResponse>(
-                    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
+                    `https://api.themoviedb.org/3/movie/${category}?language=ko-KR&page=${page}`,
                     {
                         headers: {
                             Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
                         },
                     }
                 );
-
                 setMovies(data.results);
+                console.log(data.results)
             } catch {
                 setIsError(true);
             } finally {
@@ -44,9 +49,12 @@ export default function MoviePage() {
         fetchMovies();
     }, [page,category]);
 
+    
+
     if (isError) {
         return (
-            <div>
+            <div className="flex item-ceter gap-3 p-4 bg-red-50 border border-red-300 text-red-800 rounded-xl shadow-sm 
+            animate-fade-in">
                 <span className="text-red-500 text-2xl">에러가 발생했습니다.</span>
             </div>
         );
