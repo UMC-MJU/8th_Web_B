@@ -9,16 +9,13 @@ interface ITodoContext {
     deleteTodo: (todo: TTodo) => void;
 }
 
-export const TodoContext = createContext<ITodoContext | undefined>
-    (undefined);
+export const TodoContext = createContext<ITodoContext | undefined> (undefined);
 
 //  Provider을 만드는 1번 방법
 // export const TodoProvider = ({children}: {children: 
 //     ReactNode}) => {
 // Provider을 만드는 2번 방법법
-export const TodoProvider = ({ children }:
-    //이 부분에서 :void를 하면 TodoProvider를 씌울 때 오류가 생김.
-    PropsWithChildren) => {
+export const TodoProvider = ({ children }: PropsWithChildren) => {
 
     const [todos, setTodos] = useState<TTodo[]>([]);
     const [doneTodos, setDoneTodos] = useState<TTodo[]>([]);
