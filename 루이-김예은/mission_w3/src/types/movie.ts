@@ -21,3 +21,36 @@ export type MovieResponse = {
   total_pages: number;
   total_results: number;
 };
+
+export type MovieDetail = {
+  id: number;
+  title: string;
+  overview: string;
+  tagline: string;
+  backdrop_path: string;
+  poster_path: string;
+  release_date: string;
+  runtime: number;
+  vote_average: number;
+  genres: { id: number; name: string }[];
+};
+
+// 출연진 및 감독 정보
+export type Cast = {
+  cast_id: number;
+  name: string;
+  character: string;
+  profile_path: string;
+};
+
+export type Crew = {
+  department: string;
+  job: string;
+  name: string;
+};
+
+export type CreditResponse = {
+  id: number;
+  cast: Cast[];
+  crew: Crew[];
+};
