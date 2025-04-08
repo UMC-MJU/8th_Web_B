@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { useCustomFetch } from "../hooks/useCustomFetch";
 
 interface MovieDetail {
   id: number;
@@ -27,43 +27,11 @@ interface Credit {
 
 export default function MovieDetailPage() {
   const { movieId } = useParams<{ movieId: string }>();
-  const [movie, setMovie] = useState<MovieDetail | null>(null);
-  const [credit, setCredit] = useState<Credit | null>(null);
-  const [isPending, setIsPending] = useState(true);
-  const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        setIsPending(true);
-        const { data } = await axios.get<MovieDetail>(
-          `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-            },
-          }
-        );
-        setMovie(data);
+  const [credit] = useState<Credit | null>(null);
+  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`;
 
-        const creditRes = await axios.get<Credit>(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-            },
-          }
-        );
-        setCredit(creditRes.data);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsPending(false);
-      }
-    };
-
-    fetchMovie();
-  }, [movieId]);
+  const { isPending, isError, data: movie } = useCustomFetch<MovieDetail>(url);
 
   if (isPending) {
     return <LoadingSpinner />;
