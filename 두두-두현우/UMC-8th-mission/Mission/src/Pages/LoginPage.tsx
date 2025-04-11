@@ -1,7 +1,11 @@
 import { UserSigninInformation, validateSignin } from "../utils/validate";
 import useForm from "../hooks/useForm";
+import { postSignin } from "../apis/auth";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { Local_storage_key } from "../constants/key";
 
 const LoginPage = () => {
+  const { setItem } = useLocalStorage(Local_storage_key.accessToken);
   const { values, errors, touched, getInputProps } =
     useForm<UserSigninInformation>({
       initialValue: {
@@ -11,9 +15,16 @@ const LoginPage = () => {
       validate: validateSignin,
     });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(values);
+    try {
+      const response = await postSignin(values);
+      setItem(response.data.accessToken);
+    } catch (error) {
+      alert(error?.message);
+    }
   };
+
   const isDisabled =
     Object.values(errors || {}).some((error) => error.length > 0) ||
     Object.values(values).some((value) => value === "");
@@ -57,7 +68,7 @@ const LoginPage = () => {
           disabled={isDisabled}
           className="w-full bg-amber-500 text-white py-3 rounded-lg font-medium hover:bg-amber-300 transition-colors cursor-pointer disabled:bg-gray-300"
         >
-          로그인
+          LOGIN
         </button>
       </div>
     </div>
