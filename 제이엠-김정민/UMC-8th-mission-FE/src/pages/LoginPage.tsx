@@ -1,7 +1,12 @@
+import { postSignin } from "../apis/auth";
 import UseForm from "../hooks/useForm";
+import { ResponseSigninDto } from "../types/auth";
 import { UserSignInformaiton, validateSignin } from "../utils/validate";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 
 const LoginPage = () => {
+    const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken)
 
     const {values, errors, touched, getInputProps} = UseForm<UserSignInformaiton>({
         initialValue: {
@@ -11,10 +16,19 @@ const LoginPage = () => {
         validate: validateSignin,
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(values);
         // 이 부분에서 API호출
         // await axious.post(`url`, values) 
+        try{
+            const response: ResponseSigninDto = await postSignin(values);
+            setItem(response.data.accessToken);
+        }
+        catch(error){
+            alert(error?.message);
+            console.log(response);
+
+        }
     }
     //오류가 하나라도 있거나, 입력값이 비어있으면 버튼을 비활성화
     const isDisabled: boolean = 
