@@ -15,7 +15,6 @@ import './App.css'
 //useEffcet 실습
 // import UseEffectPage from './03-week/실습/pages/useEffectPage'
 import Parent from './03-week/실습/pages/UseEffectCountPage'
-
 //Chapter03 Mission import
 // import MoviePage from './03-week/3ND-MISSION/pages/MoviePage'
 
@@ -51,7 +50,7 @@ import Parent from './03-week/실습/pages/UseEffectCountPage'
 //   },
 
 // ])
-// Chapter03 router연결결
+// Chapter03 router연결
 // function App() {
 //   console.log(import.meta.env.VITE_TMDB_KEY)
 //   return <RouterProvider router={router}/>
@@ -60,10 +59,11 @@ import Parent from './03-week/실습/pages/UseEffectCountPage'
 const App = () => {
   return (
     <>
-      {/* <Mission1/> 2주마 미션1 */}
+      {/* <Mission1/> 2주차 미션1 */}
       {/* <DarkMode/>2주차 미션2 */}
       {/* <UseEffectPage/>useEffect 실습 */}
       <Parent/> useEffect에서 cleanUp 함수실습
+      {/* <ThemeSwitcher/> */}
     </>
   )
 }

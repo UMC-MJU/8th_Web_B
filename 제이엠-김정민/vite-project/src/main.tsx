@@ -5,11 +5,15 @@ import { createRoot } from "react-dom/client";
 // import Mission1 from "./2ND-MISSION/Misson1.tsx";
 import App from "./App.tsx";
 import Chapter3 from "./03-week/3ND-MISSION/Chapter3.tsx"; //Chapter3 Mission1
+import Chapter4 from "./04-week/Chapter4.tsx"; // Chapter4 practice
+import Chapter4_M1 from "./04-week/4ND-MISSION_1/Chapter4-Mission_1.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <>
   {/* <App/> */}
-  <Chapter3/> 
+  {/* <Chapter3/>  */}
+  {/* <Chapter4/> */}
+  <Chapter4_M1/>
   </>
 )
 
