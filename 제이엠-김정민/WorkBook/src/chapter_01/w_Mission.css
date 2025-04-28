@@ -9,7 +9,7 @@ body{
     display: flex;
     justify-content: center;  /* 모든요소 센터  */
     align-items: center;   /* 모든 요소 센터 */
-    height: 100vh;
+    height: 100vh; /*세로 전체 높이*/
     background-color: #f1f1f1;
 }
 
@@ -18,7 +18,7 @@ body{
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 350px;
+    width: 350px; /*가로 고정 폭 350px*/
     text-align: center;
 }
 
@@ -35,7 +35,7 @@ body{
 }
 
 .todo-container_input{
-    flex: 1;
+    flex: 1; /*입력창이 남는 공간을 모두 차지*/
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -43,13 +43,13 @@ body{
 }
 
 .todo-container_button{
-    background-color: green;
+    background-color: green; 
     color: white;
-    border: none;
+    border: none; 
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 6px;
-    transition: background-color 0.3 ease;
+    transition: background-color 0.3s ease; /*부드러운 색상 변화*/
 }
 
 .todo-container_button:hover{
@@ -85,8 +85,9 @@ body{
 .render-container_item{
     display: flex;
     justify-content: space-between;
+    /*<li> 목록과 <button>이 너무 가깝지 않고 떨어지도록 구조를 정함*/
     align-items: center;
-
+    /*text와 버튼 높이를 맞춰줌*/
     padding: 8px;
     border-bottom: 1px solid #ddd;
     background-color: #f9f9f9;
@@ -97,7 +98,7 @@ body{
 
 .render-container_item-text{
     flex: 1;
-
+    /*text가 남는 공간을 모두 차지*/
 }
 
 .render-container_item-button{
@@ -108,7 +109,7 @@ body{
     cursor: pointer;
     border-radius: 6px;
     font-size: 12px;
-    transition: background-color 0.3 ease;
+    transition: background-color 0.3s ease;
 }
 
 .render-container_item-button:hover{

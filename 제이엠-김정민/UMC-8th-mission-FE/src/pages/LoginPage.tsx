@@ -1,76 +1,93 @@
-import { postSignin } from "../apis/auth";
 import UseForm from "../hooks/useForm";
-import { ResponseSigninDto } from "../types/auth";
 import { UserSignInformaiton, validateSignin } from "../utils/validate";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-    const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken)
+    const { login, accessToken} = useAuth();
+    const navigate = useNavigate();
 
-    const {values, errors, touched, getInputProps} = UseForm<UserSignInformaiton>({
-        initialValue: {
-            email: " ",
-            password: "",
-        },
-        validate: validateSignin,
-    });
-
-    const handleSubmit = async () => {
-        console.log(values);
-        // 이 부분에서 API호출
-        // await axious.post(`url`, values) 
-        try{
-            const response: ResponseSigninDto = await postSignin(values);
-            setItem(response.data.accessToken);
+    useEffect( () => {
+        if(accessToken){
+            //accessToken이 있으면 (로그인이 되어 있으면) 홈으로 이동
+            navigate("/");
         }
-        catch(error){
-            alert(error?.message);
-            console.log(response);
+    },[navigate,accessToken])
 
+    const { values, errors, touched, getInputProps } =
+        UseForm<UserSignInformaiton>({
+            initialValue: {
+                email: "",
+                password: "",
+            },
+            validate: validateSignin,
+        });
+
+    // form 제출 핸들러
+    const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+        //form 제출 시 페이지가 새로고침되는 것을 막기위한 코드
+        e.preventDefault(); // 페이지 리로드 방지
+        if (
+            Object.values(errors || {}).some((err) => err.length > 0) ||
+            Object.values(values).some((v) => v === "")
+        ) {
+            return;
         }
-    }
-    //오류가 하나라도 있거나, 입력값이 비어있으면 버튼을 비활성화
-    const isDisabled: boolean = 
-        Object.values(errors || {}).some((error:string) => error.length>0)|| //오류가 있으면 true
-        Object.values(values).some((value:string) => value === ""); //입력값이 비어있으면 true
+        await login(values);
+    };
+
+    // 버튼 disabled 상태
+    const isDisabled: boolean =
+        Object.values(errors || {}).some((error: string) => error.length > 0) ||
+        Object.values(values).some((value: string) => value === "");
 
     return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-        <div className="flex flex-col gap-3">
-        <input 
-        {...getInputProps("email")}
-        name="email"
-        className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${errors?.email && touched?.email ? "border-red-500 bg-red-200" : 
-            "border-gary-300"}`} 
-        type={"email"}
-        placeholder={"이메일"}
-        /> 
-        {errors?.email && touched?.email && (
-            <div className="text-red-500 text-sm">{errors.email}</div>
-        )}
-        <input 
-        {...getInputProps("password")}
-        className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${errors?.password && touched?.password ? "border-red-500 bg-red-200" : 
-            "border-gary-300"}`} 
-        type={"password"}
-        placeholder={"비밀번호"}
-        />
-        {errors?.password && touched?.password && (
-            <div className="text-red-500 text-sm">{errors.password}</div>
-        )}
-        <button 
-        type="button" 
-        onClick={handleSubmit} 
-        disabled={isDisabled} 
-        className="w-full bg-blue-600 text-white py-3 rounded-md 
-        text-lg font-medium hover:bg-blue-700 transition-colors 
-        cursor-pointer disabled:bg-gray-300"
-        >
-        로그인
-        </button>
+        <div className="flex flex-col items-center justify-center h-full gap-4">
+            {/* form 태그 추가, onSubmit에 submit 핸들러 연결 */}
+            <form onSubmit={handleSubmitForm} className="flex flex-col gap-3">
+                <input
+                    {...getInputProps("email")}
+                    name="email"
+                    className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${
+                        errors?.email && touched?.email
+                            ? "border-red-500 bg-red-200"
+                            : "border-gray-300"
+                    }`}
+                    type="email"
+                    placeholder="이메일"
+                />
+                {errors?.email && touched?.email && (
+                    <div className="text-red-500 text-sm">{errors.email}</div>
+                )}
+
+                <input
+                    {...getInputProps("password")}
+                    name="password"
+                    className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${
+                        errors?.password && touched?.password
+                            ? "border-red-500 bg-red-200"
+                            : "border-gray-300"
+                    }`}
+                    type="password"
+                    placeholder="비밀번호"
+                />
+                {errors?.password && touched?.password && (
+                    <div className="text-red-500 text-sm">
+                        {errors.password}
+                    </div>
+                )}
+
+                {/* type을 submit으로 바꾸면 Enter키로도 제출 가능 */}
+                <button
+                    type="submit"
+                    disabled={isDisabled}
+                    className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
+                >
+                    로그인
+                </button>
+            </form>
         </div>
-    </div>
     );
 };
 

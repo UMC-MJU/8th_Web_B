@@ -14,7 +14,7 @@ function addTask() {
     let li = document.createElement("li");
     //li 속성을 추가
     let taskSpan = document.createElement("span");
-    //span 속성을 추가가
+    //span 속성을 추가
     taskSpan.textContent = taskText;
     //추가된 span속성에 Input창에 있던 값을 넣어줌줌
 
@@ -42,7 +42,6 @@ function addTask() {
 
 function moveToDone(taskElement) {
     taskElement.querySelector(".complete-btn").remove(); // 완료 버튼 제거
-
     let deleteBtn = document.createElement("button");
     deleteBtn.textContent = "삭제";
     deleteBtn.classList.add("delete-btn");
