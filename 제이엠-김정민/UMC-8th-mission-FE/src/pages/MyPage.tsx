@@ -25,14 +25,15 @@ const MyPage = () => {
     const handleLogout = async () => {
         await logout();
         navigate("/");
+        
     };
 
     return (
-        <div>
+        <div className="flex-1 pt-20">
             <div>{data.data?.name}님 환영합니다.</div>
             <h1>{data.data?.email}</h1>
 
-            <button className="cursor-pointer bg-blue-400 rounded-sm hover:scale-95" 
+            <button className=" bg-blue-600 rounded-sm hover:scale-90" 
             onClick={handleLogout}>로그아웃</button>
         </div>
     );
