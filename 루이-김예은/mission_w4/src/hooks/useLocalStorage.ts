@@ -1,5 +1,3 @@
-import { set } from "react-hook-form";
-
 export const useLocalStotrage = (key: string) => {
   const setItem = (value: unknown) => {
     try {
