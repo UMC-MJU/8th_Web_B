@@ -1,13 +1,22 @@
+import UseForm from "../hooks/useForm";
 import { UserSigninInformation, validateSignin } from "../utils/validate";
-import useForm from "../hooks/useForm";
-import { postSignin } from "../apis/auth";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { Local_storage_key } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const { setItem } = useLocalStorage(Local_storage_key.accessToken);
+  const { login, accessToken } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken) {
+      //accessToken이 있으면 (로그인이 되어 있으면) 홈으로 이동
+      navigate("/");
+    }
+  }, [navigate, accessToken]);
+
   const { values, errors, touched, getInputProps } =
-    useForm<UserSigninInformation>({
+    UseForm<UserSigninInformation>({
       initialValue: {
         email: "",
         password: "",
@@ -15,63 +24,85 @@ const LoginPage = () => {
       validate: validateSignin,
     });
 
-  const handleSubmit = async () => {
-    console.log(values);
-    try {
-      const response = await postSignin(values);
-      setItem(response.data.accessToken);
-    } catch (error) {
-      alert(error?.message);
+  // form 제출 핸들러
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    //form 제출 시 페이지가 새로고침되는 것을 막기위한 코드
+    e.preventDefault(); // 페이지 리로드 방지
+    if (
+      Object.values(errors || {}).some((err) => err.length > 0) ||
+      Object.values(values).some((v) => v === "")
+    ) {
+      return;
     }
+    await login(values);
   };
 
-  const isDisabled =
-    Object.values(errors || {}).some((error) => error.length > 0) ||
-    Object.values(values).some((value) => value === "");
+  const handleGoogleLogin = async () => {
+    window.location.href =
+      import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+  };
+
+  // 버튼 disabled 상태
+  const isDisabled: boolean =
+    Object.values(errors || {}).some((error: string) => error.length > 0) ||
+    Object.values(values).some((value: string) => value === "");
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
-      <div className="flex flex-col gap-3">
+      {/* form 태그 추가, onSubmit에 submit 핸들러 연결 */}
+      <form onSubmit={handleSubmitForm} className="flex flex-col gap-3">
         <input
           {...getInputProps("email")}
           name="email"
-          type={"email"}
-          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm
-            ${
-              errors?.email && touched?.email
-                ? "border-red-500 bg-red-200"
-                : "border-gray-300"
-            }`}
-          placeholder={"이메일"}
+          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${
+            errors?.email && touched?.email
+              ? "border-red-500 bg-red-200"
+              : "border-gray-300"
+          }`}
+          type="email"
+          placeholder="이메일"
         />
         {errors?.email && touched?.email && (
-          <div className="text-red-500 text-sm ">{errors.email}</div>
+          <div className="text-red-500 text-sm">{errors.email}</div>
         )}
+
         <input
           {...getInputProps("password")}
           name="password"
-          type={"password"}
-          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm
-            ${
-              errors?.password && touched?.password
-                ? "border-red-500 bg-red-200"
-                : "border-gray-300"
-            }`}
-          placeholder={"비밀번호"}
+          className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${
+            errors?.password && touched?.password
+              ? "border-red-500 bg-red-200"
+              : "border-gray-300"
+          }`}
+          type="password"
+          placeholder="비밀번호"
         />
         {errors?.password && touched?.password && (
-          <div className="text-red-500 text-sm ">{errors.password}</div>
+          <div className="text-red-500 text-sm">{errors.password}</div>
         )}
+
+        {/* type을 submit으로 바꾸면 Enter키로도 제출 가능 */}
+        <button
+          type="submit"
+          disabled={isDisabled}
+          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
+        >
+          로그인
+        </button>
         <button
           type="button"
-          onClick={handleSubmit}
-          disabled={isDisabled}
-          className="w-full bg-amber-500 text-white py-3 rounded-lg font-medium hover:bg-amber-300 transition-colors cursor-pointer disabled:bg-gray-300"
+          onClick={handleGoogleLogin}
+          disabled={!isDisabled}
+          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
         >
-          LOGIN
+          <div className="flex items-center justify-center">
+            <img src={"/src/images/google.svg"} alt="Google Logo Image"></img>
+            <span>Google Login</span>
+          </div>
         </button>
-      </div>
+      </form>
     </div>
   );
 };
+
 export default LoginPage;
