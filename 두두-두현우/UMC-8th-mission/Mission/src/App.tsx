@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouteObject,
+  RouterProvider,
+} from "react-router-dom";
 import "./App.css";
 import HomePage from "./Pages/HomePage";
 import NotFoundPage from "./Pages/NotFoundPage";
@@ -8,7 +12,7 @@ import SignupPage from "./Pages/SignupPage";
 import MyPage from "./Pages/MyPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedLayout from "./layouts/ProtectedLayout";
-import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
+import GoogleLoginRedirectPage from "./Pages/GoogleLoginRedirectPage";
 
 const publicRoutes: RouteObject[] = [
   {
@@ -32,26 +36,14 @@ const protectedRoutes: RouteObject[] = [
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: "me",
+        path: "my",
         element: <MyPage />,
       },
     ],
   },
 ];
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomeLayout />,
-    errorElement: <NotFoundPage />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SignupPage /> },
-      { path: "my", element: <MyPage /> },
-    ],
-  },
-]);
+const router = createBrowserRouter([...publicRoutes, ...protectedRoutes]);
 
 function App() {
   return (

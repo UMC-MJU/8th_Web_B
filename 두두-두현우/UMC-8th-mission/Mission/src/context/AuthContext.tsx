@@ -89,9 +89,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 };
 export const useAuth = (): AuthContextType => {
-    const context = useContext(AuthContext);
-    if (!context) {
-      throw new Error("AuthContext를 찾을 수 없습니다.");
-    }
-    return context;
-  };
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("AuthContext를 찾을 수 없습니다.");
+  }
+  return context;
+};

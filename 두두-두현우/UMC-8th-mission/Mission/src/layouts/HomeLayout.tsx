@@ -13,7 +13,7 @@ const HomeLayout = () => {
           <a href="/" className="text-white hover:text-pink-400">
             홈
           </a>
-          <a href="/me" className="text-white hover:text-pink-400">
+          <a href="/my" className="text-white hover:text-pink-400">
             마이페이지
           </a>
           <a href="/login" className="text-white hover:text-pink-400">

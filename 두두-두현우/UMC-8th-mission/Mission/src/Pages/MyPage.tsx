@@ -30,10 +30,11 @@ const MyPage = () => {
   return (
     <div className="flex-1 pt-20">
       <div>{data.data?.name}Page</div>
+      <img src={data.data?.avatar as string} alt={"GoogleLogo"} />
       <h1>{data.data?.email}</h1>
 
       <button
-        className=" bg-blue-600 rounded-sm hover:scale-90"
+        className="cursor-pointer bg-blue-600 rounded-sm p-5 hover:scale-90"
         onClick={handleLogout}
       >
         Logout
