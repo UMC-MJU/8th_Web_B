@@ -88,15 +88,22 @@ const SignupPage = () => {
                 <h2 className="text-xl font-bold text-center">회원가입</h2>
 
                 {/* 이메일 표시 (step 2 이상일 때) */}
-                {step < 3 && step > 1 && ( //닉네임 부분에 이메일 로고 나오지 않게 페이지 설정
-                    <div className="flex items-center justify-center text-sm text-gray-400">
-                        ✉️ {email}
-                    </div>
-                )}
+                {step < 3 &&
+                    step > 1 && ( //닉네임 부분에 이메일 로고 나오지 않게 페이지 설정
+                        <div className="flex items-center justify-center text-sm text-gray-400">
+                            ✉️ {email}
+                        </div>
+                    )}
 
-                {/* STEP 1: 이메일 */}
+                {/* STEP 1: 이메일 입력 */}
                 {step === 1 && (
-                    <>
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            await handleNext("email");
+                        }}
+                        className="flex flex-col gap-3"
+                    >
                         <button className="border border-gray-500 py-2 rounded">
                             구글 로그인
                         </button>
@@ -119,23 +126,28 @@ const SignupPage = () => {
                         />
                         {errors.email && (
                             <div className={"text-red-500 text-xs"}>
-                                {" "}
-                                {errors.email.message}{" "}
+                                {errors.email.message}
                             </div>
                         )}
+
                         <button
-                            type="button"
-                            onClick={() => handleNext("email")}
+                            type="submit"
                             className="bg-pink-500 text-white py-2 rounded hover:bg-pink-600 transition"
                         >
                             다음
                         </button>
-                    </>
+                    </form>
                 )}
 
-                {/* STEP 2: 비밀번호 */}
+                {/* STEP 2: 비밀번호 입력 */}
                 {step === 2 && (
-                    <>
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            await handleNext(["password", "passwordCheck"]);
+                        }}
+                        className="flex flex-col gap-3"
+                    >
                         <div className="relative w-[300px]">
                             <input
                                 {...register("password")}
@@ -149,20 +161,18 @@ const SignupPage = () => {
                             />
                             <button
                                 type="button"
-                                onClick={() => setShowPassword((prev) => !prev)} // ✅ 클릭 시 토글!
+                                onClick={() => setShowPassword((prev) => !prev)}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                             >
                                 {showPassword ? "🙈" : "👁️"}
                             </button>
                         </div>
-
                         {errors.password && (
                             <div className="text-red-500 text-xs">
                                 {errors.password.message}
                             </div>
                         )}
 
-                        {/* 패스워드 체크부분 */}
                         <div className="relative w-[300px]">
                             <input
                                 {...register("passwordCheck")}
@@ -177,7 +187,8 @@ const SignupPage = () => {
                             <button
                                 type="button"
                                 onClick={() =>
-                                    setShowPasswordCheck((prev) => !prev)} // ✅ 클릭 시 토글!
+                                    setShowPasswordCheck((prev) => !prev)
+                                }
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                             >
                                 {showPasswordCheck ? "🙈" : "👁️"}
@@ -193,18 +204,12 @@ const SignupPage = () => {
                             )}
 
                         <button
-                            type="button"
-                            onClick={() =>
-                                handleNext(["password", "passwordCheck"])
-                            }
+                            type="submit"
                             disabled={
-                                (step === 2 &&
-                                    watch("password") !==
-                                        watch("passwordCheck")) ||
+                                watch("password") !== watch("passwordCheck") ||
                                 isSubmitting
                             }
                             className={`py-2 rounded ${
-                                step === 2 &&
                                 watch("password") !== watch("passwordCheck")
                                     ? "bg-gray-600 cursor-not-allowed"
                                     : "bg-pink-500 hover:bg-pink-600"
@@ -212,12 +217,17 @@ const SignupPage = () => {
                         >
                             다음
                         </button>
-                    </>
+                    </form>
                 )}
 
                 {/* STEP 3: 닉네임 */}
                 {step === 3 && (
-                    <>
+                    <form
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                    }}
+                    className="flex flex-col gap-3"
+                    >
                         <input
                             {...register("name")}
                             className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-lg ${
@@ -236,7 +246,7 @@ const SignupPage = () => {
                         )}
                         <button
                             disabled={isSubmitting}
-                            type="button"
+                            type="submit"
                             onClick={handleSubmit(onSubmit)}
                             className="w-full bg-blue-600 text-white py-3 rounded-md 
     text-lg font-medium hover:bg-blue-700 transition-colors 
@@ -244,7 +254,7 @@ const SignupPage = () => {
                         >
                             회원가입
                         </button>
-                    </>
+                    </form>
                 )}
             </div>
         </div>

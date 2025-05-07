@@ -5,6 +5,9 @@ const todoList = document.getElementById('todo-list');
 const doneList = document.getElementById('done-list');
 let todos = [];
 let doneTasks = [];
+const getTodoText = () => {
+    return todoInput.value.trim();
+};
 const renderTasks = () => {
     todoList.innerHTML = '';
     doneList.innerHTML = '';
@@ -17,15 +20,12 @@ const renderTasks = () => {
         doneList.appendChild(li);
     });
 };
-const getTodoText = () => {
-    return todoInput.value.trim();
-};
 const addTodo = (text) => {
     todos.push({ id: Date.now(), text });
     todoInput.value = '';
     renderTasks();
 };
-const compleTodo = (todo) => {
+const completeTodo = (todo) => {
     todos = todos.filter((t) => t.id !== todo.id);
     doneTasks.push(todo);
     renderTasks();
@@ -53,7 +53,7 @@ const createTodoElement = (todo, isDone) => {
             deleteTodo(todo);
         }
         else {
-            compleTodo(todo);
+            completeTodo(todo);
         }
     });
     li.appendChild(button);
