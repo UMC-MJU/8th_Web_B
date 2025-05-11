@@ -16,19 +16,19 @@ const ProtectedLayout = () => {
         <div className="text-pink-500 font-bold">DUDU</div>
         <div className="space-x-2">
           <a href="/" className="text-white hover:text-pink-400">
-            홈
+            HOME
           </a>
-          <a href="/me" className="text-white hover:text-pink-400">
-            마이페이지
+          <a href="/my" className="text-white hover:text-pink-400">
+            My
           </a>
           <a href="/login" className="text-white hover:text-pink-400">
-            로그인
+            Signin
           </a>
           <a
             href="/signup"
             className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 transition"
           >
-            회원가입
+            Signup
           </a>
         </div>
       </header>
@@ -40,7 +40,7 @@ const ProtectedLayout = () => {
 
       {/* 푸터 */}
       <footer className="p-4 bg-black text-white text-center border-t border-gray-700">
-        DUDU UMC 5thweek
+        DUDU UMC Practice
       </footer>
     </div>
   );

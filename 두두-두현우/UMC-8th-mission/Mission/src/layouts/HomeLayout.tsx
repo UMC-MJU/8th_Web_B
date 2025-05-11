@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const HomeLayout = () => {
   return (
@@ -11,19 +11,19 @@ const HomeLayout = () => {
         <div className="text-pink-500 font-bold">DUDU</div>
         <div className="space-x-2">
           <a href="/" className="text-white hover:text-pink-400">
-            홈
+            HOME
           </a>
           <a href="/my" className="text-white hover:text-pink-400">
-            마이페이지
+            MY
           </a>
           <a href="/login" className="text-white hover:text-pink-400">
-            로그인
+            Signin
           </a>
           <a
             href="/signup"
             className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 transition"
           >
-            회원가입
+            Signup
           </a>
         </div>
       </header>
@@ -35,7 +35,15 @@ const HomeLayout = () => {
 
       {/* 푸터 */}
       <footer className="p-4 bg-black text-white text-center border-t border-gray-700">
-        DUDU UMC 5thweek
+        <div className="container mx-auto text-center text-gray-600">
+          <p>&copy;{new Date().getFullYear()} DUDU UMC Practice </p>
+
+          <div className={"flex justify-center space-x-4 mt-4"}>
+            <Link to={"#"}>Privay Policy</Link>
+            <Link to={"#"}>Terms of Service</Link>
+            <Link to={"#"}>Contact</Link>
+          </div>
+        </div>
       </footer>
     </div>
   );
