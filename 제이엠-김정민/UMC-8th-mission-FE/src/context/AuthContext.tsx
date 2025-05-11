@@ -1,19 +1,21 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { RequestSigninDto } from "../types/auth";
+import { RequestSigninDto, ResponseMyInfoDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { postLogout, postSignin } from "../apis/auth";
+import { getMyInfo, postLogout, postSignin } from "../apis/auth";
 
 interface AuthContextType{
     accessToken: string | null;
     refreshToken: string | null;
-    login:(sitnInData: RequestSigninDto) => Promise<void>;
+    user: ResponseMyInfoDto["data"] | null; //함수가 아니라 유저 정보 상태로 
+    login:(signInData: RequestSigninDto) => Promise<void>;
     logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>( {
     accessToken: null,
     refreshToken: null,
+    user: null, //null로 초기화
     login:async() => {},
     logout: async() => {},
 });
@@ -39,6 +41,8 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
         getRefreshTokenFromStorage(),        
     );
 
+    const [user, setUser] = useState<ResponseMyInfoDto["data"] | null>(null);
+
     const login = async(singninData: RequestSigninDto) => {
         try{
             const {data} = await postSignin(singninData);
@@ -48,10 +52,14 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
                 const newRefreshToken = data.refreshToken;
     
                 setAccessTokenInStorage(newAccessToken);
-                setRefreshTokenInStorage(newRefreshToken);
+                setRefreshTokenInStorage(newRefreshToken);    
     
                 setAccessToken(newAccessToken);
                 setRefreshToken(newRefreshToken);
+
+                const myInfoResponse = await getMyInfo();
+                setUser(myInfoResponse.data);
+
                 alert("로그인 성공");
                 // navigate("/me");
                 window.location.href = "/me";
@@ -70,6 +78,7 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
             //AccessToken과 RefreshToken를 제거함함
             removeAccessTokenFromStorage();
             removeRefreshTokenFromStorage();
+            
 
             //AccessToken과 RefreshToken 값이 null 이면 로그아웃 된 것.
             setAccessToken(null);
@@ -83,7 +92,7 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
     }
 
     return (
-        <AuthContext.Provider value={{accessToken,refreshToken,login,logout}}>
+        <AuthContext.Provider value={{accessToken,refreshToken,user,login,logout}}>
             {children}
         </AuthContext.Provider>
     )

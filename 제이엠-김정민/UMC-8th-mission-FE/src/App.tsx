@@ -69,7 +69,16 @@ const router = createBrowserRouter([
 
 ]);
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+    //쿼리에 대한 옵션
+    defaultOptions: {
+        queries:{
+            //재요청을 3번해라
+            retry: 3, 
+        }
+    }
+});
+
 
 function App() {
     return (

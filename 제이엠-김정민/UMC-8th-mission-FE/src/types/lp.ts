@@ -7,7 +7,7 @@ export type Tag = {
 
 export type Likes = {
     id: number;
-    userId: number;
+    userId: number; 
     lpId: number;
 }
 
