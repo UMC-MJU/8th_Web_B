@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "es2016", // ECMAScript 2016으로 컴파일
     "module": "ES2015", // ES2015 모듈 시스템 사용
     "rootDir": "./src", // 소스 파일의 루트 디렉토리

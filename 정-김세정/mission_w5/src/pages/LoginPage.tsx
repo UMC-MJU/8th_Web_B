@@ -3,16 +3,24 @@ import { useAuth } from "../context/AuthContext";
 import useForm from "../hooks/useForm";
 import { UserSigninInformation, validateSignin } from "../utils/validate";
 import { useNavigate } from "react-router-dom";
+import { getMyInfo } from "../apis/auth";
 
 const LoginPage = () => {
     const {login, accessToken} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (accessToken) {
+        const check = async () => {
+          try {
+            await getMyInfo();
             navigate("/");
-        }
-    }, [navigate, accessToken]);
+          } catch {
+            // 유효하지 않으면 stay (로그인 페이지 보이게 유지)
+          }
+        };
+    
+        if (accessToken) check();
+      }, [accessToken]);
 
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
         initialValue: {
