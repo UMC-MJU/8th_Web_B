@@ -1,16 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Tag, Likes } from "../types/lp";
-import { useAuth } from "../context/AuthContext";
+import { LpItem } from "../../types/lp";
+import { useAuth } from "../../context/AuthContext";
+import LpCardSkeleton from "./LpCardSkeleton";
 
 interface Props {
-  lp: {
-    id: number;
-    title: string;
-    thumbnail: string;
-    createdAt: Date;
-    likes: Likes[];
-    tags: Tag[];
-  };
+  lp: LpItem;
 }
 
 const LpCard = ({ lp }: Props) => {
@@ -58,6 +52,7 @@ const LpCard = ({ lp }: Props) => {
           <span>❤️ {lp.likes.length}</span>
         </div>
       </div>
+      {/* <LpCardSkeleton /> */}
     </div>
   );
 };

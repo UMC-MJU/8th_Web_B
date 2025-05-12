@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetLpDetail } from "../hooks/queries/useGetLpDetail";
+import LpComments from "../components/LpCard/LpComment";
 // import { formatDistanceToNow } from "date-fns";
 
 const LpDetailPage = () => {
@@ -13,7 +14,7 @@ const LpDetailPage = () => {
   const lp = data.data;
 
   return (
-    <div className="flex justify-center px-4 pt-12 text-white min-h-screen">
+    <div className="flex justify-center px-4 mb-16 text-white min-h-screen">
       <div className="bg-zinc-800 w-full max-w-5xl rounded-xl shadow-md px-10 py-10 relative">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
           {/* 작성자 + 제목 + 날짜 */}
@@ -79,6 +80,8 @@ const LpDetailPage = () => {
         <div className="flex justify-center items-center gap-2 text-pink-400 text-xl">
           ❤️ <span className="text-white">{lp.likes.length}</span>
         </div>
+        {/*댓글*/}
+        {lpId && <LpComments lpId={Number(lpId)} />}
       </div>
     </div>
   );

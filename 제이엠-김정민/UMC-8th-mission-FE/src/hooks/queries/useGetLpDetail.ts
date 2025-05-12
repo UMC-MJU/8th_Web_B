@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getLpDetail } from "../../apis/lp";
-import { LpDetail, LpItem, ResponseLpDetailDto } from "../../types/lp";
+import { LpDetail } from "../../types/lp";
 import { QUERY_KEY } from "../../constants/key";
 
 export const useGetLpDetail = (lpId: number) => {

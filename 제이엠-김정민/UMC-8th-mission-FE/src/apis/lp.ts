@@ -21,3 +21,8 @@ export const getLpDetail = async (lpId: number) => {
   const { data } = await axiosInstance.get(`/v1/lps/${lpId}`);
   return data; // CommonResponse<LpItem>
 };
+//LP의 댓글 불러오기
+export const getLpComments = async (lpId: number) => {
+  const { data } = await axiosInstance.get(`/v1/lps/${lpId}/comments`);
+  return data;
+};
