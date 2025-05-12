@@ -4,25 +4,25 @@ import Sidebar from "../components/Sidebar.tsx";
 import { useState } from "react";
 
 const HomeLayout = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-    return (
-        <div className="flex flex-col min-h-screen bg-black text-white">
-            <Navbar onToggleSidebar = {() => setIsSidebarOpen(prev => !prev)}/>
-            {/* 사이드바 + 본문 콘텐츠 */}
-            <div className="flex flex-1 min-h-0"> 
-                <Sidebar isOpen={isSidebarOpen}/>
-                {/* 본문 */}
-                <main className="flex-1 pt-10 px-6 overflow-y-auto">
-                    <Outlet />
-                </main>
-            </div>
-            {/* 푸터 */}
-            <footer className="p-4 bg-black text-white text-center border-t border-gray-700">
-                ⓒ 제이엠/로그인&회원가입 페이지
-            </footer>
-        </div>
-    );
+  return (
+    <div className="flex flex-col min-h-screen bg-black text-white">
+      <Navbar onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+      {/* 사이드바 + 본문 콘텐츠 */}
+      <div className="flex flex-1 min-h-0">
+        <Sidebar isOpen={isSidebarOpen} />
+        {/* 본문 */}
+        <main className="flex-1 pt-10 px-6 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+      {/* 푸터 */}
+      <footer className="p-4 bg-black text-white text-center border-t border-gray-700">
+        ⓒ 제이엠/로그인&회원가입 페이지
+      </footer>
+    </div>
+  );
 };
 
 export default HomeLayout;
