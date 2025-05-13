@@ -29,7 +29,7 @@ const MyPage = () => {
     };
 
     return (
-        <div className="flex-1 pt-20">
+        <div className="flex-1 pt-4">
             <div>{data.data?.name}님 환영합니다.</div>
             <h1>{data.data?.email}</h1>
 
