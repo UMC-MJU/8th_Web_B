@@ -1,24 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
 import { getMyInfo } from "../apis/auth";
-import { ResponseMyInfoDto } from "../types/auth";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
-  const { accessToken, user, logout } = useAuth();
+  const { accessToken, logout } = useAuth();
   const navigate = useNavigate();
-  const [data, setData] = useState<ResponseMyInfoDto>([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await getMyInfo();
-      console.log(response);
-
-      setData(response);
-    };
-
-    getData();
-  }, []);
+  const {
+    data: userProfile,
+    // isPending,
+    // isError,
+    // isLoading,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getMyInfo,
+    enabled: !!accessToken,
+    select: (data) => data.data,
+    staleTime: Infinity,
+    refetchInterval: 1000 * 60 * 5,
+  });
 
   const handleLogout = async () => {
     await logout();
@@ -50,7 +51,7 @@ const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
 
         {accessToken && (
           <div className="flex flex-row gap-5">
-            <div>🔍 {data.data?.name}님 반갑습니다.</div>
+            <div>🔍 {userProfile?.name}님 반갑습니다.</div>
             <button
               className="text-white rounded-sm hover:text-pink-400"
               onClick={handleLogout}

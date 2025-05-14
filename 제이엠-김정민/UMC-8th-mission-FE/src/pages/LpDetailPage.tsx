@@ -12,7 +12,8 @@ const LpDetailPage = () => {
   const { data, isLoading, isError } = useGetLpDetail(Number(lpId));
   const { data: myinfo } = useGetMyIfo();
   //mutateAsync -> Promise를 반환해서 await 사용가능
-  const { mutate: likeMutate, mutateAsync } = usePostLike();
+  //usePostLike 훅 사용하는 곳에
+  const { mutate: likeMutate } = usePostLike();
   const { mutate: dislikeMutate } = useDeleteLike();
 
   //방법 1.
