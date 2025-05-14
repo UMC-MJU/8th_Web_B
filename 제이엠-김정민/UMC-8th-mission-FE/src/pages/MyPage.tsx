@@ -1,42 +1,68 @@
-import { useEffect, useState } from "react";
-import { ResponseMyInfoDto } from "../types/auth";
-import { getMyInfo } from "../apis/auth";
-import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import useGetMyInfo from "../hooks/queries/useGetMyInfo";
+import useGetLpList from "../hooks/queries/useGetLpList";
+import LpCard from "../components/LpCard/LpCard";
+import { PAGINATION_ORDER } from "../enum/common";
 
 const MyPage = () => {
-    const navigate = useNavigate();
-    const { logout } = useAuth();
-    const [data, setData] = useState<ResponseMyInfoDto>([]);
+  const { data: myInfo } = useGetMyInfo();
 
-    useEffect(() => {
-        const getData = async () => {
-            const response = await getMyInfo();
-            console.log(response);
+  // ✅ 일반 리스트 쿼리로 전체 LP 가져오기
+  const {
+    data: lpList,
+    isLoading,
+    isError,
+  } = useGetLpList({
+    cursor: null,
+    search: "",
+    order: PAGINATION_ORDER.desc,
+    limit: 100,
+  });
 
-            setData(response);
-        };
+  if (isLoading) return <p className="text-white">로딩 중...</p>;
+  if (isError || !lpList) return <p className="text-white">불러오기 실패</p>;
 
-        getData();
-    }, []);
+  const myId = myInfo?.data.id;
 
-    console.log(data.data?.name);
+  // ✅ 내가 작성한 LP만 필터링
+  const myLps = lpList.data.filter((lp) => lp.authorId === myId);
+  const likedLps = lpList.data.filter((lp) =>
+    lp.likes?.some((like) => like.userId === myId)
+  );
 
-    const handleLogout = async () => {
-        await logout();
-        navigate("/");
-        
-    };
+  return (
+    // <div>마이페이지</div>
+    <div className="px-4 py-10 max-w-6xl mx-auto text-white">
+      <h1 className="text-3xl font-bold mb-10">마이페이지</h1>
 
-    return (
-        <div className="flex-1 pt-4">
-            <div>{data.data?.name}님 환영합니다.</div>
-            <h1>{data.data?.email}</h1>
+      {/* 내가 생성한 LP */}
+      <section className="mb-16">
+        <h2 className="text-xl font-semibold mb-6">🎵 내가 만든 LP</h2>
+        {myLps.length > 0 ? (
+          <div className="grid grid-cols-3 md:grid-cols-2 gap-6">
+            {myLps.map((lp) => (
+              <LpCard key={lp.id} lp={lp} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400">작성한 LP가 없습니다.</p>
+        )}
+      </section>
 
-            <button className=" bg-blue-600 rounded-sm hover:scale-90" 
-            onClick={handleLogout}>로그아웃</button>
-        </div>
-    );
+      {/* 좋아요한 LP */}
+      <section>
+        <h2 className="text-xl font-semibold mb-6">💖 좋아요한 LP</h2>
+        {likedLps.length > 0 ? (
+          <div className="grid grid-cols-3 md:grid-cols-2 gap-6">
+            {likedLps.map((lp) => (
+              <LpCard key={lp.id} lp={lp} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400">좋아요한 LP가 없습니다.</p>
+        )}
+      </section>
+    </div>
+  );
 };
 
 export default MyPage;

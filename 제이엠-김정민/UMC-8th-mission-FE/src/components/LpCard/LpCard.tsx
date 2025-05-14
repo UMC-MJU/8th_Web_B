@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { LpItem } from "../../types/lp";
 import { useAuth } from "../../context/AuthContext";
-import LpCardSkeleton from "./LpCardSkeleton";
 
 interface Props {
   lp: LpItem;

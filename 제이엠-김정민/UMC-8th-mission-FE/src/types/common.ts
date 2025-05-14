@@ -15,7 +15,7 @@ export type CursorBasedResponse<T> = CommonResponse<{
 
 //필수가 아니라서 모든 값을 optional처리 해준다.
 export type PaginationDto = {
-  cursor?: number;
+  cursor?: number | null;
   limit?: number;
   search?: string;
   order?: PAGINATION_ORDER;

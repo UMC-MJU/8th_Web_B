@@ -52,7 +52,7 @@ axiosInstance.interceptors.response.use(
           LOCAL_STORAGE_KEY.accessToken
         );
         const { removeItem: removeRefreshToken } = useLocalStorage(
-          LOCAL_STORAGE_KEY.refreshToekn
+          LOCAL_STORAGE_KEY.refreshToken
         );
         removeAccessToken();
         removeRefreshToken();
@@ -68,7 +68,7 @@ axiosInstance.interceptors.response.use(
         //refresh 요청 실행 후 , Promise를 전역변수에 할당
         refreshPromise = (async () => {
           const { getItem: getRefreshToken } = useLocalStorage(
-            LOCAL_STORAGE_KEY.refreshToekn
+            LOCAL_STORAGE_KEY.refreshToken
           );
 
           const refreshToken = getRefreshToken();
@@ -81,7 +81,7 @@ axiosInstance.interceptors.response.use(
             LOCAL_STORAGE_KEY.accessToken
           );
           const { setItem: setRefreshToken } = useLocalStorage(
-            LOCAL_STORAGE_KEY.refreshToekn
+            LOCAL_STORAGE_KEY.refreshToken
           );
           setAccessToken(data.data.accessToken);
           setRefreshToken(data.data.refreshToken);
@@ -93,7 +93,7 @@ axiosInstance.interceptors.response.use(
               LOCAL_STORAGE_KEY.accessToken
             );
             const { removeItem: removeRefreshToken } = useLocalStorage(
-              LOCAL_STORAGE_KEY.refreshToekn
+              LOCAL_STORAGE_KEY.refreshToken
             );
             removeAccessToken();
             removeRefreshToken();

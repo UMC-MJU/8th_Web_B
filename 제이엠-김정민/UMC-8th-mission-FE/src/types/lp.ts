@@ -1,4 +1,4 @@
-import { CursorBasedResponse } from "./common";
+import { CommonResponse, CursorBasedResponse } from "./common";
 
 export type Tag = {
   id: number;
@@ -18,7 +18,7 @@ export type LpItem = {
   thumbnail: string;
   published: boolean;
   authorId: number;
-  createdAt: Date; // 💡 서버에서 string으로 오므로 string으로 맞추는 걸 추천
+  createdAt: Date;
   updatedAt: Date;
   tags: Tag[];
   likes: Likes[];
@@ -42,7 +42,17 @@ export type LpDetail = {
   likes: Likes[];
 };
 
+export type RequestLpDto = {
+  lpId: number;
+};
+
 export type ResponseLpListDto = CursorBasedResponse<LpItem[]>;
+
+export type ResponseLikeLpDto = CommonResponse<{
+  id: number;
+  userId: number;
+  lpId: number;
+}>;
 
 export type CommentAuthor = {
   id: number;

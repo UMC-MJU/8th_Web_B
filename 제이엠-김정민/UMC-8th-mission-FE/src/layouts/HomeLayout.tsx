@@ -13,7 +13,7 @@ const HomeLayout = () => {
       <div className="flex flex-1 min-h-0">
         <Sidebar isOpen={isSidebarOpen} />
         {/* 본문 */}
-        <main className="flex-1 pt-10 px-6 overflow-y-auto">
+        <main className="flex-1 pt-6 px-6 overflow-y-auto">
           <Outlet />
         </main>
       </div>

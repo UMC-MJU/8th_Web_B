@@ -1,17 +1,44 @@
 import { useParams } from "react-router-dom";
 import { useGetLpDetail } from "../hooks/queries/useGetLpDetail";
 import LpComments from "../components/LpCard/LpComment";
+import useGetMyIfo from "../hooks/queries/useGetMyInfo";
+// import { deleteLike, postLike } from "../apis/lp";
+import usePostLike from "../hooks/mutations/usePostLike";
+import useDeleteLike from "../hooks/mutations/useDeleteLike";
 // import { formatDistanceToNow } from "date-fns";
 
 const LpDetailPage = () => {
   const { lpId } = useParams<{ lpId: string }>();
   const { data, isLoading, isError } = useGetLpDetail(Number(lpId));
+  const { data: myinfo } = useGetMyIfo();
+  //mutateAsync -> Promise를 반환해서 await 사용가능
+  const { mutate: likeMutate, mutateAsync } = usePostLike();
+  const { mutate: dislikeMutate } = useDeleteLike();
+
+  //방법 1.
+  // const isLiked = data?.data.likes
+  //   .map((like) => like.userId)
+  //   .includes(myinfo?.data.id as number);
+  //방법 2.
+  //some 함수 -> 주어진 판별 함수를 적어도 하나 통과하는지 테스트 (주어진 함수가 true 면 true 반환. )
+  const isLiked = data?.data.likes.some(
+    (like) => like.userId === myinfo?.data.id
+  );
+
+  const handleLikeLp = () => {
+    likeMutate({ lpId: Number(lpId) }); //mutate를 연결할 때 async를 빼줌
+  };
+
+  const handleDislikeLp = () => {
+    dislikeMutate({ lpId: Number(lpId) }); //mutate를 연결할 때 sync를 빼줌
+  };
 
   if (isLoading) return <p className="text-white">로딩 중...</p>;
   if (isError || !data?.data)
     return <p className="text-white">불러오기 실패</p>;
 
   const lp = data.data;
+  // const me = myinfo?.data;
 
   return (
     <div className="flex justify-center px-4 mb-16 text-white min-h-screen">
@@ -77,9 +104,14 @@ const LpDetailPage = () => {
         </div>
 
         {/* 좋아요 */}
-        <div className="flex justify-center items-center gap-2 text-pink-400 text-xl">
-          ❤️ <span className="text-white">{lp.likes.length}</span>
-        </div>
+        <button
+          onClick={isLiked ? handleDislikeLp : handleLikeLp}
+          className="flex justify-center items-center gap-2 text-pink-400 text-xl hover:scale-105"
+        >
+          {isLiked ? "❤️" : "🤍"}
+          <span className="text-white">{lp.likes.length}</span>
+        </button>
+
         {/*댓글*/}
         {lpId && <LpComments lpId={Number(lpId)} />}
       </div>
