@@ -1,6 +1,10 @@
 import { PaginationDto } from "../types/common";
 import {
+  CreateLpPayload,
+  CreateLpResponse,
+  RequestCommentDto,
   RequestLpDto,
+  ResponseCommentDto,
   ResponseLikeLpDto,
   ResponseLpListDto,
 } from "../types/lp";
@@ -27,9 +31,27 @@ export const getLpDetail = async (lpId: number) => {
   return data; // CommonResponse<LpItem>
 };
 
+//LP 생성하기
+export const createLP = (data: CreateLpPayload): Promise<CreateLpResponse> => {
+  return axiosInstance
+    .post<CreateLpResponse>("/v1/lps", data)
+    .then((res) => res.data); // 반환 확실하게
+};
+
 //LP의 댓글 불러오기
 export const getLpComments = async (lpId: number) => {
   const { data } = await axiosInstance.get(`/v1/lps/${lpId}/comments`);
+  return data;
+};
+
+//LP 댓글 생성하기
+export const postComment = async ({
+  lpId,
+  content,
+}: RequestCommentDto): Promise<ResponseCommentDto> => {
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, {
+    content,
+  });
   return data;
 };
 

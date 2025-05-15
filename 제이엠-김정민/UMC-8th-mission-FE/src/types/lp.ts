@@ -21,7 +21,7 @@ export type LpItem = {
   createdAt: Date;
   updatedAt: Date;
   tags: Tag[];
-  likes: Likes[];
+  likes?: Likes[];
   author?: LPAuthor; // 목록에는 없지만 상세에는 있음 → optional 처리
 };
 
@@ -44,6 +44,7 @@ export type LpDetail = {
 
 export type RequestLpDto = {
   lpId: number;
+  content?: string; //댓글 부분에서만 필요해서 옵셔널로 적용
 };
 
 export type ResponseLpListDto = CursorBasedResponse<LpItem[]>;
@@ -53,6 +54,41 @@ export type ResponseLikeLpDto = CommonResponse<{
   userId: number;
   lpId: number;
 }>;
+
+export type RequestCommentDto = {
+  lpId: number;
+  content?: string;
+};
+
+export type ResponseCommentDto = {
+  id: number;
+  content: string;
+  lpId: number;
+  authorId: number;
+  createdAt: string;
+  updatedAt: string;
+  author: LPAuthor;
+};
+
+//LP생성하기 위한 페이로드
+export type CreateLpPayload = {
+  title: string;
+  content: string;
+  thumbnail: string;
+  tags: string[];
+  published: boolean;
+};
+//LP생성할때 필요한 보내는정보
+export type CreateLpResponse = {
+  id: number;
+  title: string;
+  content: string;
+  thumbnail: string;
+  tags: string[];
+  published: boolean;
+  createdAt: string;
+  authorId: number;
+};
 
 export type CommentAuthor = {
   id: number;
@@ -75,7 +111,5 @@ export type CommentItem = {
 };
 
 export type ResponseCommentListDto = {
-  data: {
-    data: CommentItem[];
-  };
+  data: CommentItem[];
 };

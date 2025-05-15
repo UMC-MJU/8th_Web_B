@@ -1,7 +1,25 @@
+import { useState } from "react";
 import { useGetComments } from "../../hooks/queries/useGetComments";
+import useCreateComment from "../../hooks/mutations/useCreateComment";
 
 const LpComments = ({ lpId }: { lpId: number }) => {
   const { data, isLoading, isError } = useGetComments(lpId);
+  const [content, setContent] = useState("");
+  const { mutate: createComment } = useCreateComment();
+
+  const handleSubmit = () => {
+    if (!content.trim()) return;
+    createComment(
+      { lpId, content },
+      {
+        onSuccess: () => {
+          setContent("");
+          console.log(data);
+        },
+        onError: () => alert("댓글 등록 실패"),
+      }
+    );
+  };
 
   if (isLoading) return <p>댓글을 불러오는 중입니다...</p>;
   if (isError) return <p>댓글을 불러오는 데 실패했습니다.</p>;
@@ -12,14 +30,27 @@ const LpComments = ({ lpId }: { lpId: number }) => {
 
       {/* 댓글 입력창 */}
       <div className="flex items-center gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="댓글을 입력해주세요"
-          className="flex-1 px-3 py-2 rounded bg-zinc-700 text-white outline-none"
-        />
-        <button className="bg-pink-600 px-4 py-2 rounded text-white hover:bg-pink-700">
-          작성
-        </button>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="w-full flex items-center gap-2 mb-6"
+        >
+          <input
+            type="text"
+            placeholder="댓글을 입력해주세요"
+            className="flex-1 px-3 py-2 rounded bg-zinc-700 text-white outline-none"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="bg-pink-600 px-4 py-2 rounded text-white hover:bg-pink-700"
+          >
+            작성
+          </button>
+        </form>
       </div>
 
       {/* 댓글 리스트 */}

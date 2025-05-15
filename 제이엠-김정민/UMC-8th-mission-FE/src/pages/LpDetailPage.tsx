@@ -22,7 +22,7 @@ const LpDetailPage = () => {
   //   .includes(myinfo?.data.id as number);
   //방법 2.
   //some 함수 -> 주어진 판별 함수를 적어도 하나 통과하는지 테스트 (주어진 함수가 true 면 true 반환. )
-  const isLiked = data?.data.likes.some(
+  const isLiked = data?.data.likes?.some(
     (like) => like.userId === myinfo?.data.id
   );
 
@@ -110,7 +110,7 @@ const LpDetailPage = () => {
           className="flex justify-center items-center gap-2 text-pink-400 text-xl hover:scale-105"
         >
           {isLiked ? "❤️" : "🤍"}
-          <span className="text-white">{lp.likes.length}</span>
+          <span className="text-white">{lp.likes?.length}</span>
         </button>
 
         {/*댓글*/}

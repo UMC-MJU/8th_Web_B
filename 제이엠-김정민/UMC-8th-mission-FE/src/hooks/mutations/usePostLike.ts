@@ -23,6 +23,7 @@ function usePostLike() {
     //variables -> mutate에 전달한 값
     //context -> onMutate에서 반환한 값
     // onError: (error, variables, context) => {},
+
     //요청 직전에 실행되기 직전에 실행되는 함수 => Optimistic Update를 구현할 때 유용
     //Optimistic Update => 네트워크가 느려서 실행이 느려질 때 무조건 성공한다고 생각하고 미리 적용해주는 것
     onMutate: (variables) => {
