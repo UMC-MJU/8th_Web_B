@@ -16,7 +16,7 @@ export const axiosInstance = axios.create({
   // }
 });
 
-//요청 인터셉트: 모든 요청전에 accessToken을 Authoriztion 헤더에 추가
+//요청 인터셉트: 모든 요청전에 accessToken을 Authoriztion 헤더에 추가한다.
 axiosInstance.interceptors.request.use(
   (config) => {
     const { getItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
@@ -51,9 +51,11 @@ axiosInstance.interceptors.response.use(
         const { removeItem: removeAccessToken } = useLocalStorage(
           LOCAL_STORAGE_KEY.accessToken
         );
+        // localStorage.removeItem(LOCAL_STORAGE_KEY.accessToken);
         const { removeItem: removeRefreshToken } = useLocalStorage(
           LOCAL_STORAGE_KEY.refreshToken
         );
+        // localStorage.removeItem(LOCAL_STORAGE_KEY.refreshToken);
         removeAccessToken();
         removeRefreshToken();
         window.location.href = "/login";
@@ -63,7 +65,7 @@ axiosInstance.interceptors.response.use(
       //재시도 플래그 설정
       originalRequest._retry = true;
 
-      //이미 리프레시 요청이 진행중이면, 그 Promise를 재사용
+      //이미 리프레시 요청이 진행중이면, 그 Promise를 재사용한다.
       if (!refreshPromise) {
         //refresh 요청 실행 후 , Promise를 전역변수에 할당
         refreshPromise = (async () => {
@@ -80,6 +82,7 @@ axiosInstance.interceptors.response.use(
           const { setItem: setAccessToken } = useLocalStorage(
             LOCAL_STORAGE_KEY.accessToken
           );
+
           const { setItem: setRefreshToken } = useLocalStorage(
             LOCAL_STORAGE_KEY.refreshToken
           );
@@ -88,14 +91,15 @@ axiosInstance.interceptors.response.use(
           //새 accessToken을 반환하여 다른 요청들이 이것을 사용할 수 있게함
           return data.data.accessToken;
         })()
-          .catch((error) => {
-            console.error("Refresh token error:", error);
+          .catch(() => {
             const { removeItem: removeAccessToken } = useLocalStorage(
               LOCAL_STORAGE_KEY.accessToken
             );
+            // localStorage.removeItem(LOCAL_STORAGE_KEY.accessToken);
             const { removeItem: removeRefreshToken } = useLocalStorage(
               LOCAL_STORAGE_KEY.refreshToken
             );
+            // localStorage.removeItem(LOCAL_STORAGE_KEY.refreshToken);
             removeAccessToken();
             removeRefreshToken();
           })
@@ -103,7 +107,9 @@ axiosInstance.interceptors.response.use(
             refreshPromise = null;
           });
       }
+      //진행중인 refreshPromise가 해결될 때 까지 기다림 => 비동기이기 때문
       return refreshPromise.then((newAccessToken) => {
+        //원본요청에 Authoriziaton 헤더를 갱신된 토큰으로 업데이트
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
         //업데이트 된 원본 요청을 재시도
         return axiosInstance.request(originalRequest);
