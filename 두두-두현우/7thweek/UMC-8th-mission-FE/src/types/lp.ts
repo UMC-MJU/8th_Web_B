@@ -46,6 +46,8 @@ export type RequestLpDto = {
   lpId: number;
 };
 
+export type ResponseLpDto = CommonResponse<LpItem>;
+
 export type ResponseLpListDto = CursorBasedResponse<LpItem[]>;
 
 export type ResponseLikeLpDto = CommonResponse<{
