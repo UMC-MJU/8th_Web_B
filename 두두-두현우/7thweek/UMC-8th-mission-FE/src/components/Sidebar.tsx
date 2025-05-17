@@ -5,7 +5,7 @@ interface SidebarProps {
 const Sidebar = ({ isOpen }: SidebarProps) => {
   return (
     <aside
-      className={`transition-all duration-300 bg-zinc-900 p-4 flex flex-col ${
+      className={` transition-all duration-300 bg-zinc-900 p-4 flex flex-col ${
         isOpen ? "w-64" : "w-0 overflow-hidden"
       }`}
     >

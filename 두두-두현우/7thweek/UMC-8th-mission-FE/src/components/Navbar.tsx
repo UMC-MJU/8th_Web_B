@@ -35,7 +35,7 @@ const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
         <div>
           <button
             onClick={onToggleSidebar}
-            className="text-white text-2xl hover:text-pink-400"
+            className="text-white text-2xl hover:text-pink-400 cursor-pointer"
           >
             ☰
           </button>
@@ -53,7 +53,7 @@ const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
           <div className="flex flex-row gap-5">
             <div>🔍 {userProfile?.name}! Welcome</div>
             <button
-              className="text-white rounded-sm hover:text-pink-400"
+              className="text-white rounded-sm hover:text-pink-400 cursor-pointer"
               onClick={handleLogout}
             >
               Logout

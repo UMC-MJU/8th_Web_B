@@ -16,6 +16,7 @@ import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LpDetailPage from "./pages/LpDetailPage";
+import ThrottlePage from "./pages/ThrottlePage";
 
 // router로 만들어야될 것들
 // 1.홈페이지
@@ -38,6 +39,7 @@ const publicRoutes: RouteObject[] = [
         path: "lp/:lpId",
         element: <LpDetailPage />,
       },
+      { path: "/throttle", element: <ThrottlePage></ThrottlePage> },
     ],
   },
 ];
