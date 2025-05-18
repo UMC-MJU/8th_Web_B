@@ -58,6 +58,7 @@ export type ResponseLikeLpDto = CommonResponse<{
 export type RequestCommentDto = {
   lpId: number;
   content?: string;
+  commentId?: number;
 };
 
 export type ResponseCommentDto = {
@@ -69,6 +70,16 @@ export type ResponseCommentDto = {
   updatedAt: string;
   author: LPAuthor;
 };
+
+export type ResponseCommentUpdateDto = CommonResponse<{
+  id: number;
+  content: string;
+  lpId: number;
+  authorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  author: CommentAuthor;
+}>;
 
 //LP생성하기 위한 페이로드
 export type CreateLpPayload = {

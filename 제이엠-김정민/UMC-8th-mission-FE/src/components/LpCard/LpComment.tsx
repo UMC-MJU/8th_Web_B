@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useGetComments } from "../../hooks/queries/useGetComments";
 import useCreateComment from "../../hooks/mutations/useCreateComment";
+import useGetMyIfo from "../../hooks/queries/useGetMyInfo";
+import { MdEdit } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
 
 const LpComments = ({ lpId }: { lpId: number }) => {
+  const { data: myinfo } = useGetMyIfo();
   const { data, isLoading, isError } = useGetComments(lpId);
   const [content, setContent] = useState("");
   const { mutate: createComment } = useCreateComment();
+  const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
 
   const handleSubmit = () => {
     if (!content.trim()) return;
@@ -64,14 +69,46 @@ const LpComments = ({ lpId }: { lpId: number }) => {
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-sm">
+                <span className="font-semibold text-l">
                   {comment.author.name}
+                  <span className="text-xs text-gray-400">
+                    <span> {"    "}</span>
+                    {new Date(comment.createdAt).toLocaleDateString("ko-KR")}
+                  </span>
                 </span>
-                <span className="text-xs text-gray-400">
-                  {new Date(comment.createdAt).toLocaleDateString("ko-KR")}
-                </span>
+
+                {/* {comment.authorId === myinfo?.data.id && ( */}
+                <button
+                  onClick={() =>
+                    setMenuOpenId(menuOpenId === comment.id ? null : comment.id)
+                  }
+                  className="text-gray-300 text-xl hover:text-white"
+                >
+                  ⋯
+                </button>
+                {/* )} */}
+                {menuOpenId === comment.id && (
+                  <div className="absolute right-0  mt-1 bg-zinc-700 border rounded shadow-md z-10">
+                    <button
+                      onClick={() => {
+                        setMenuOpenId(null);
+                      }}
+                      className="block w-full px-4 py-2 text-m text-left hover:bg-zinc-600 text-white"
+                    >
+                      <MdEdit />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMenuOpenId(null);
+                      }}
+                      className="block w-full px-4 py-2 text-m text-left hover:bg-zinc-600 text-white"
+                    >
+                      <MdDeleteForever />
+                    </button>
+                  </div>
+                )}
               </div>
-              <p className="text-sm text-gray-300">{comment.content}</p>
+              <p className="text-m text-gray-300">{comment.content}</p>
             </div>
           </li>
         ))}

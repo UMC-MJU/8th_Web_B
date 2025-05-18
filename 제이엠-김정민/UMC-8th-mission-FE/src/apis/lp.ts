@@ -5,6 +5,7 @@ import {
   RequestCommentDto,
   RequestLpDto,
   ResponseCommentDto,
+  ResponseCommentUpdateDto,
   ResponseLikeLpDto,
   ResponseLpListDto,
 } from "../types/lp";
@@ -44,7 +45,7 @@ export const getLpComments = async (lpId: number) => {
   return data;
 };
 
-//LP 댓글 생성하기
+//LP의 댓글 생성하기
 export const postComment = async ({
   lpId,
   content,
@@ -52,6 +53,21 @@ export const postComment = async ({
   const { data } = await axiosInstance.post(`/v1/lps/${lpId}/comments`, {
     content,
   });
+  return data;
+};
+
+//LP의 댓글 수정하기
+export const patchComment = async ({
+  lpId,
+  commentId,
+  content,
+}: RequestCommentDto): Promise<ResponseCommentUpdateDto> => {
+  const { data } = await axiosInstance.patch(
+    `/v1/lps/${lpId}/comments/${commentId}`,
+    {
+      content,
+    }
+  );
   return data;
 };
 

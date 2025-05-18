@@ -10,7 +10,8 @@ interface AddLpModalProps {
 const AddLpModal = ({ onClose }: AddLpModalProps) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tag, setTag] = useState("");
+  const [tagList, setTagList] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,6 +21,16 @@ const AddLpModal = ({ onClose }: AddLpModalProps) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setSelectedImage(file);
+  };
+
+  const handleAddTag = () => {
+    const trimmed = tag.trim();
+    if (!trimmed || tagList.includes(trimmed)) return;
+    setTagList([...tagList, trimmed]);
+    setTag("");
+  };
+  const handleRemoveTag = (tag: string) => {
+    setTagList(tagList.filter((t) => t !== tag));
   };
 
   const handleSubmit = async () => {
@@ -48,14 +59,22 @@ const AddLpModal = ({ onClose }: AddLpModalProps) => {
         title,
         content,
         thumbnail: thumbnailUrl,
-        tags: tags
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
+        tags: tagList,
+        // tags: tag
+        //   .split(",")
+        //   .map((t) => t.trim())
+        //   .filter(Boolean),
         published: true,
       };
 
-      createLpMutate(payload);
+      createLpMutate(payload, {
+        onSuccess: () => {
+          onClose();
+        },
+        onError: () => {
+          alert("LP등록에 실패했습니다.");
+        },
+      });
     } catch (err) {
       console.error(err);
       alert("등록에 실패했습니다.");
@@ -73,7 +92,7 @@ const AddLpModal = ({ onClose }: AddLpModalProps) => {
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-600 hover:text-black"
+          className="absolute top-3 right-3 text-gray-600 hover:text-white"
         >
           ✕
         </button>
@@ -117,18 +136,50 @@ const AddLpModal = ({ onClose }: AddLpModalProps) => {
           className="w-full border border-gray-300 rounded px-3 py-2 mb-3 text-white"
         />
 
-        <input
-          type="text"
-          placeholder="태그 (,로 구분)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2 mb-3 text-white"
-        />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAddTag();
+          }}
+          className="flex gap-2 mb-3"
+        >
+          <input
+            type="text"
+            placeholder="태그 입력"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            className="flex-1 border border-gray-300 rounded px-3 py-2 text-white"
+          />
+          <button
+            type="submit"
+            // onClick={handleAddTag}
+            className="px-4 py-2 bg-pink-500 text-white rounded hover:bg-pink-300 whitespace-nowrap"
+          >
+            Add
+          </button>
+        </form>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          {tagList.map((tag) => (
+            <span
+              key={tag}
+              className="bg-zinc-600 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm"
+            >
+              #{tag}
+              <button
+                onClick={() => handleRemoveTag(tag)}
+                className="text-white hover:text-red-400"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
 
         <button
           onClick={handleSubmit}
           disabled={isPending}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+          className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-300 disabled:bg-gray-400"
         >
           {isPending ? "등록 중..." : "등록하기"}
         </button>
