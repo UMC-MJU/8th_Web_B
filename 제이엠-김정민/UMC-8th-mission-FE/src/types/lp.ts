@@ -81,6 +81,10 @@ export type ResponseCommentUpdateDto = CommonResponse<{
   author: CommentAuthor;
 }>;
 
+export type ResponseCommentDeleteDto = CommonResponse<{
+  message: string;
+}>;
+
 //LP생성하기 위한 페이로드
 export type CreateLpPayload = {
   title: string;

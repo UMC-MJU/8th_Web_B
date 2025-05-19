@@ -4,6 +4,7 @@ import {
   CreateLpResponse,
   RequestCommentDto,
   RequestLpDto,
+  ResponseCommentDeleteDto,
   ResponseCommentDto,
   ResponseCommentUpdateDto,
   ResponseLikeLpDto,
@@ -67,6 +68,17 @@ export const patchComment = async ({
     {
       content,
     }
+  );
+  return data;
+};
+
+//LP 댓글 삭제하기
+export const deleteComment = async ({
+  lpId,
+  commentId,
+}: RequestCommentDto): Promise<ResponseCommentDeleteDto> => {
+  const { data } = await axiosInstance.delete(
+    `/v1/lps/${lpId}/comments/${commentId}`
   );
   return data;
 };
