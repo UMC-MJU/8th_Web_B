@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { LpItem } from "../../types/lp";
 import { useAuth } from "../../context/AuthContext";
-import LpCardSkeleton from "./LpCardSkeleton";
 
 interface Props {
   lp: LpItem;
@@ -49,7 +48,7 @@ const LpCard = ({ lp }: Props) => {
         <p className="text-white font-bold text-sm line-clamp-2">{lp.title}</p>
         <div className="flex justify-between items-center text-xs text-white mt-2">
           <span>{getTimeAgo(lp.createdAt)}</span>
-          <span>❤️ {lp.likes.length}</span>
+          <span>❤️ {lp.likes?.length}</span>
         </div>
       </div>
       {/* <LpCardSkeleton /> */}

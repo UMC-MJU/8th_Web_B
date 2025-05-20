@@ -5,8 +5,8 @@ import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { getMyInfo, postLogout, postSignin } from "../apis/auth";
 
 interface AuthContextType {
-  accessToken: string | null;
-  refreshToken: string | null;
+  accessToken: string | null | undefined;
+  refreshToken: string | null | undefined;
   user: ResponseMyInfoDto["data"] | null; //함수가 아니라 유저 정보 상태로
   login: (signInData: RequestSigninDto) => Promise<void>;
   logout: () => Promise<void>;
@@ -32,12 +32,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     getItem: getRefreshTokenFromStorage,
     setItem: setRefreshTokenInStorage,
     removeItem: removeRefreshTokenFromStorage,
-  } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToekn);
+  } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
 
-  const [accessToken, setAccessToken] = useState<string | null>(
+  const [accessToken, setAccessToken] = useState<string | null | undefined>(
     getAccessTokenFromStorage()
   );
-  const [refreshToken, setRefreshToken] = useState<string | null>(
+  const [refreshToken, setRefreshToken] = useState<string | null | undefined>(
     getRefreshTokenFromStorage()
   );
 
