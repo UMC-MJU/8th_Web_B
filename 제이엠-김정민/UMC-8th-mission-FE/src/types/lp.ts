@@ -61,6 +61,7 @@ export type RequestCommentDto = {
   commentId?: number;
 };
 
+//댓글 응답 Dto
 export type ResponseCommentDto = {
   id: number;
   content: string;
@@ -71,6 +72,7 @@ export type ResponseCommentDto = {
   author: LPAuthor;
 };
 
+// 댓글 수정 응답 Dto
 export type ResponseCommentUpdateDto = CommonResponse<{
   id: number;
   content: string;
@@ -81,8 +83,25 @@ export type ResponseCommentUpdateDto = CommonResponse<{
   author: CommentAuthor;
 }>;
 
+// 댓글 삭제 응답 Dto
 export type ResponseCommentDeleteDto = CommonResponse<{
   message: string;
+}>;
+
+export type RequestEditMyInfoDto = {
+  name: string;
+  bio?: string;
+  avatar?: string;
+};
+
+export type ResponseEditMyInfoDto = CommonResponse<{
+  id: number;
+  name: string;
+  email: string;
+  bio: string;
+  avatar: string;
+  createdAt: Date;
+  updatedAt: Date;
 }>;
 
 //LP생성하기 위한 페이로드

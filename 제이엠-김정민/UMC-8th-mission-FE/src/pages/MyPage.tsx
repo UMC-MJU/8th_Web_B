@@ -5,6 +5,8 @@ import { PAGINATION_ORDER } from "../enum/common";
 import { useState } from "react";
 import { MYAVATOR } from "../images/avator";
 import AddLpModal from "../components/AddLpModal";
+import useEditMyInfo from "../hooks/mutations/useEditMyInfo";
+import EditMyInfoModal from "../components/editMyInfoModal";
 
 const MyPage = () => {
   const [selectedTab, setSelectedTab] = useState<"mine" | "liked">("mine");
@@ -23,6 +25,10 @@ const MyPage = () => {
     order: PAGINATION_ORDER.desc,
     limit: 100,
   });
+  const { mutate: editMyInfo } = useEditMyInfo();
+
+  //설정 버튼 누르면 내 정보 수정 모달 상태
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (isLoading) return <p className="text-white">로딩 중...</p>;
   if (isError || !lpList) return <p className="text-white">불러오기 실패</p>;
@@ -51,10 +57,21 @@ const MyPage = () => {
           <p className="text-sm text-gray-300">{myInfo?.data.bio}</p>
           <p className="text-sm text-gray-400">{myInfo?.data.email}</p>
         </div>
-        <button className="text-gray-300 hover:text-white">
+        <button
+          onClick={() => setIsEditModalOpen(true)}
+          className="text-gray-300 hover:text-white"
+        >
           <div className="">⚙️설정</div>
         </button>
       </div>
+      {isEditModalOpen && myInfo && (
+        <EditMyInfoModal
+          currentName={myInfo.data.name}
+          currentBio={myInfo.data.bio}
+          currentAvatar={myInfo.data.avatar}
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
 
       {/* 📌 탭 메뉴 */}
       <div className="flex justify-center items-center border-b border-gray-700 mb-6">

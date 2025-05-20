@@ -3,14 +3,30 @@ import {
   CreateLpPayload,
   CreateLpResponse,
   RequestCommentDto,
+  RequestEditMyInfoDto,
   RequestLpDto,
   ResponseCommentDeleteDto,
   ResponseCommentDto,
   ResponseCommentUpdateDto,
+  ResponseEditMyInfoDto,
   ResponseLikeLpDto,
   ResponseLpListDto,
 } from "../types/lp";
 import { axiosInstance } from "./axios";
+
+//내 정보 수정하기
+export const editMyInfo = async (
+  payload: RequestEditMyInfoDto
+): Promise<ResponseEditMyInfoDto> => {
+  const { name, bio, avatar } = payload;
+  const { data } = await axiosInstance.patch(`/v1/users`, {
+    name,
+    bio,
+    avatar,
+  });
+  return data;
+};
+
 //전체 LP 목록 가져오기
 export const getLpList = async (
   paginationDto: PaginationDto
