@@ -5,7 +5,6 @@ import { PAGINATION_ORDER } from "../enum/common";
 import { useState } from "react";
 import { MYAVATOR } from "../images/avator";
 import AddLpModal from "../components/AddLpModal";
-import useEditMyInfo from "../hooks/mutations/useEditMyInfo";
 import EditMyInfoModal from "../components/editMyInfoModal";
 
 const MyPage = () => {
@@ -25,7 +24,6 @@ const MyPage = () => {
     order: PAGINATION_ORDER.desc,
     limit: 100,
   });
-  const { mutate: editMyInfo } = useEditMyInfo();
 
   //설정 버튼 누르면 내 정보 수정 모달 상태
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
