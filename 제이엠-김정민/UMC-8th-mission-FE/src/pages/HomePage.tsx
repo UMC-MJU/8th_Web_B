@@ -6,6 +6,7 @@ import { PAGINATION_ORDER } from "../enum/common.ts";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList.tsx";
 import useDebounce from "../hooks/useDebounce.ts";
 import { SEARCH_DEBOUNCE_DELAY } from "../constants/delay.ts";
+import useThrottle from "../hooks/useThrottle.ts";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -23,18 +24,25 @@ const HomePage = () => {
     //search 값을 debouncedValue로 변경.
   } = useGetInfiniteLpList(10, debouncedValue, PAGINATION_ORDER.desc);
 
+  const throttledFetchNextPage = useThrottle(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, 3000); //3초
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          // fetchNextPage();
+          throttledFetchNextPage();
         }
       },
       { threshold: 0.5 }
     );
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [throttledFetchNextPage, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isLoading) {
     return (
