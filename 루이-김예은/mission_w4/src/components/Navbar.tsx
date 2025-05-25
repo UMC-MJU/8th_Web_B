@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 
 const Navbar = () => {
   const { accessToken } = useAuth();
+  const { data: userData } = useGetMyInfo(accessToken);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
@@ -34,6 +36,7 @@ const Navbar = () => {
 
           {accessToken && (
             <>
+              <span>{userData?.data.name}님 반갑습니다!</span>
               <Link
                 to={"/my"}
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-500"

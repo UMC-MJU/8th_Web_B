@@ -31,3 +31,20 @@ export type ResponseSigninDto = CommonResponse<{
   accessToken: string;
   refreshToken: string;
 }>;
+
+// 유저 정보 수정
+export type RequestUsersDto = {
+  name: string;
+  bio?: string;
+  avatar?: string;
+};
+
+export type ResponseUsersDto = CommonResponse<{
+  id: number;
+  name: string;
+  email: string;
+  bio: string;
+  avatar: string;
+  createdAt: Date;
+  updatedAt: Date;
+}>;
