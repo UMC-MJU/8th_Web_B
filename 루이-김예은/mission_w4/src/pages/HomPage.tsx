@@ -3,11 +3,13 @@ import useGetLpList from "../hooks/queries/useGetLpList";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { PAGINATION_ORDER } from "../enums/common";
 import { useInView } from "react-intersection-observer";
+import useDebounce from "../hooks/useDebounce";
 import LpCard from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 800); // 0.5초 후 실제 검색값으로 반영
   // const { data, isPending, isError } = useGetLpList({
   //   search,
   //   limit: 50,
@@ -20,7 +22,7 @@ const HomePage = () => {
     isPending,
     fetchNextPage,
     isError,
-  } = useGetInfiniteLpList(5, search, PAGINATION_ORDER.desc);
+  } = useGetInfiniteLpList(5, debouncedSearch, PAGINATION_ORDER.desc);
 
   // ref, inView
   // ref => 특정한 HTML 요소를 감시할 수 있다.
@@ -28,8 +30,11 @@ const HomePage = () => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   useEffect(() => {
-    if (inView) {
-      !isFetching && hasNextPage && fetchNextPage();
+    // if (inView) {
+    //   !isFetching && hasNextPage && fetchNextPage();
+    // }
+    if (inView && !isFetching && hasNextPage) {
+      fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
@@ -41,11 +46,16 @@ const HomePage = () => {
     return <div className={"mt-20"}>Error...</div>;
   }
 
-  console.log(lps);
+  //console.log(lps);
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <input value={search} onChange={(e) => setSearch(e.target.value)}></input>
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="앨범 제목을 검색하세요"
+        className="border p-2 w-full mb-4"
+      ></input>
 
       <div
         className={
