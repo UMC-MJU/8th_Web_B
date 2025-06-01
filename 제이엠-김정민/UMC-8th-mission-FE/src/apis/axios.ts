@@ -51,9 +51,11 @@ axiosInstance.interceptors.response.use(
         const { removeItem: removeAccessToken } = useLocalStorage(
           LOCAL_STORAGE_KEY.accessToken
         );
+        // localStorage.removeItem(LOCAL_STORAGE_KEY.accessToken);
         const { removeItem: removeRefreshToken } = useLocalStorage(
-          LOCAL_STORAGE_KEY.refreshToekn
+          LOCAL_STORAGE_KEY.refreshToken
         );
+        // localStorage.removeItem(LOCAL_STORAGE_KEY.refreshToken);
         removeAccessToken();
         removeRefreshToken();
         window.location.href = "/login";
@@ -68,7 +70,7 @@ axiosInstance.interceptors.response.use(
         //refresh 요청 실행 후 , Promise를 전역변수에 할당
         refreshPromise = (async () => {
           const { getItem: getRefreshToken } = useLocalStorage(
-            LOCAL_STORAGE_KEY.refreshToekn
+            LOCAL_STORAGE_KEY.refreshToken
           );
 
           const refreshToken = getRefreshToken();
@@ -80,21 +82,24 @@ axiosInstance.interceptors.response.use(
           const { setItem: setAccessToken } = useLocalStorage(
             LOCAL_STORAGE_KEY.accessToken
           );
+
           const { setItem: setRefreshToken } = useLocalStorage(
-            LOCAL_STORAGE_KEY.refreshToekn
+            LOCAL_STORAGE_KEY.refreshToken
           );
           setAccessToken(data.data.accessToken);
           setRefreshToken(data.data.refreshToken);
           //새 accessToken을 반환하여 다른 요청들이 이것을 사용할 수 있게함
           return data.data.accessToken;
         })()
-          .catch((error) => {
+          .catch(() => {
             const { removeItem: removeAccessToken } = useLocalStorage(
               LOCAL_STORAGE_KEY.accessToken
             );
+            // localStorage.removeItem(LOCAL_STORAGE_KEY.accessToken);
             const { removeItem: removeRefreshToken } = useLocalStorage(
-              LOCAL_STORAGE_KEY.refreshToekn
+              LOCAL_STORAGE_KEY.refreshToken
             );
+            // localStorage.removeItem(LOCAL_STORAGE_KEY.refreshToken);
             removeAccessToken();
             removeRefreshToken();
           })

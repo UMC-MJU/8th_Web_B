@@ -1,7 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getMyInfo } from "../apis/auth";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
-  const { accessToken, user } = useAuth();
+  const { accessToken, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const {
+    data: userProfile,
+    // isPending,
+    // isError,
+    // isLoading,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getMyInfo,
+    enabled: !!accessToken,
+    select: (data) => data.data,
+    staleTime: Infinity,
+    refetchInterval: 1000 * 60 * 5,
+  });
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   return (
     <nav
@@ -27,12 +50,15 @@ const Navbar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
                 </a> */}
 
         {accessToken && (
-          <>
-            <a href="/me" className="text-white hover:text-pink-400">
-              마이페이지
-            </a>
-            <div>{user?.name}</div>
-          </>
+          <div className="flex flex-row gap-5">
+            <div>🔍 {userProfile?.name}님 반갑습니다.</div>
+            <button
+              className="text-white rounded-sm hover:text-pink-400"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
+          </div>
         )}
 
         {!accessToken && (
