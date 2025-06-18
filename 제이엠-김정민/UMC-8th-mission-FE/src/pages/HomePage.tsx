@@ -28,7 +28,7 @@ const HomePage = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, 3000); //3초
+  }, 1000); //1초
 
   useEffect(() => {
     const observer = new IntersectionObserver(
