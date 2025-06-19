@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import store from "./store/store";
 import PriceBox from "./components/PriceBox";
 import Modal from "./components/Modal";
+import Counter from "./components/Counter";
+import RandomNumberGenerator from "./components/RandomNumberGenerator";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <CartList />
       <PriceBox />
       <Modal />
+      <Counter />
+      <RandomNumberGenerator />
     </Provider>
   );
 }
