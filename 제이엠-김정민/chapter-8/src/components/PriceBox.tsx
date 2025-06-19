@@ -1,13 +1,17 @@
-import { clearCart, type CartState } from "../slices/cartSlice";
+// import { clearCart, type CartState } from "../slices/cartSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/useCustomRedux";
 import { openModal } from "../slices/modalSlice";
+import { useCartInfo } from "../store/zustandStore";
 
 const PriceBox = () => {
-  const { total } = useAppSelector((state): CartState => state.cart);
+  // const { total } = useAppSelector((state): CartState => state.cart);
   const dispatch = useAppDispatch();
+  //redux-toolkit 사용
+  const { total } = useCartInfo();
 
   const handleInititalizeCart = () => {
     dispatch(openModal(""));
+    //edux-toolkit 사용할 때
   };
 
   return (
